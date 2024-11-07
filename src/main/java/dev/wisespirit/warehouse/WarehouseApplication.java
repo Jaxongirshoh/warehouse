@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * This simple class demonstrate Spring boot main class
- * @version 0.0
+ * @version 0.1
  * @author wisespirit
  */
 
