@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -16,7 +18,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import java.time.LocalDate;
 
 /**
- * Base class for all auditable entities.
+ * This class is base class for all auditable entities.
  * - **id:** Unique identifier for the entity.
  * - **createdAt:** Date and time of entity creation.
  * - **createdBy:** ID of the user who created the entity.

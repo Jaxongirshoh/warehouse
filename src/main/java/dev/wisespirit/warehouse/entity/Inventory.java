@@ -26,6 +26,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "inventories")
+@Deprecated(since = "0.1",forRemoval = true)
 public class Inventory extends BaseAuditable {
     private Integer stockQuantity;
     @OneToOne

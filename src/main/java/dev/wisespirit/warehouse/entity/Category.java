@@ -1,12 +1,7 @@
 package dev.wisespirit.warehouse.entity;
 
 import dev.wisespirit.warehouse.entity.auth.BaseAuditable;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,6 +34,6 @@ public class Category extends BaseAuditable {
     private String name;
     //todo join with itself
     private String parentId;
-    @ManyToMany(mappedBy = "categories",cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "categories",fetch = FetchType.LAZY)
     private Set<Product> products;
 }
