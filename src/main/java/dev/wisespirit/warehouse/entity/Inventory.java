@@ -15,7 +15,7 @@ import lombok.Setter;
  * This class extends `BaseAuditable` and provides fields for tracking inventory details:
  * - **stockQuantity:** The current quantity of the product in stock.
  * - **product:** The product associated with this inventory record.
- *
+ * @deprecated  instead use quantity of {@link Product}
  * @author wisespirit
  * @version 0.1
  */
