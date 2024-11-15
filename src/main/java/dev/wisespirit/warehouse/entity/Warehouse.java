@@ -38,7 +38,7 @@ public class Warehouse extends BaseAuditable {
     @Column(nullable = false)
     private String address;
     @Column(nullable = false)
-    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\\\.[a-zA-Z]{2,}$\\n\",message = \"email is invalid")
+    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\\\.[a-zA-Z]{2,}\\n\",message = \"email is invalid")
     private String phone;
     @OneToMany(mappedBy = "warehouse",cascade = CascadeType.ALL)
     private Set<CashBox> cashBoxes;

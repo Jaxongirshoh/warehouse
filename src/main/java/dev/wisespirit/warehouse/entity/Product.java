@@ -47,8 +47,7 @@ public class Product extends BaseAuditable {
     @Column(nullable = false)
     @NotBlank(message = "price cannot be blank")
     private double price;
-    @OneToOne(mappedBy = "product",cascade = CascadeType.ALL)
-    private Inventory inventory;
+    private long quantity;
     @ManyToMany()
     @JoinTable(
             name = "product_category",
