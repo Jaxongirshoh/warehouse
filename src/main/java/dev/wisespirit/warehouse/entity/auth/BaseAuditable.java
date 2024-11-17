@@ -16,6 +16,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 /**
  * This class is base class for all auditable entities.
@@ -35,8 +36,8 @@ import java.time.LocalDate;
 @MappedSuperclass
 public abstract class BaseAuditable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
     @CreatedDate()
     private LocalDate createdAt;
     @CreatedBy()
