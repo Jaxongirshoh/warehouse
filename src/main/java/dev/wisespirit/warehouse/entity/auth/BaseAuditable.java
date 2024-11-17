@@ -33,7 +33,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @MappedSuperclass
-@Deprecated
 public abstract class BaseAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
