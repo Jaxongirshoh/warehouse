@@ -34,6 +34,4 @@ public class Category extends BaseAuditable {
     private String name;
     //todo join with itself
     private String parentId;
-    @ManyToMany(mappedBy = "categories",fetch = FetchType.LAZY)
-    private Set<Product> products;
 }

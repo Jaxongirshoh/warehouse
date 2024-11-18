@@ -1,27 +1,19 @@
 package dev.wisespirit.warehouse.entity;
 
 import dev.wisespirit.warehouse.entity.auth.BaseAuditable;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
- *This class represents a product within the system.
- *
+ * This class represents a product within the system.
+ * <p>
  * This class extends `BaseAuditable` and provides fields for defining products and their attributes:
  * - **name:** The name of the product.
  * - **description:** A description of the product.
@@ -32,27 +24,52 @@ import java.util.Set;
  * @author wisespirit
  * @version 0.1
  */
-
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
-@Table(name = "products")
-public class Product extends BaseAuditable {
-    @Column(nullable = false)
-    @NotBlank(message = "name cannot be blank")
-    private String name;
+@Table(name = "product")
+public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "contractor_id")
+    private Contractor contractor;
+
+    @Column(name = "sku")
+    private int sku;
+
+    @Column(name = "description")
     private String description;
-    @Column(nullable = false)
-    @NotBlank(message = "price cannot be blank")
-    private double price;
-    private long quantity;
-    @ManyToMany()
-    @JoinTable(
-            name = "product_category",
-            joinColumns = @JoinColumn(name = "product_id",referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id",referencedColumnName = "id")
-    )
-    private Set<Category> categories;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<ProductPrice> prices = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<ProductCost> costs = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<GoodsReceiptNoteLine> goodsReceiptNoteLines = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<SalesOrderLine> salesOrderLines = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<PurchaseOrderLine> purchaseOrderLines = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<PickingJobLine> pickingJobLines = new ArrayList<>();
 }
+
+
+
