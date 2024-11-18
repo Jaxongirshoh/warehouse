@@ -1,15 +1,10 @@
 package dev.wisespirit.warehouse.entity;
 
-import dev.wisespirit.warehouse.entity.auth.BaseAuditable;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
-import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * This class represents a product within the system.
@@ -69,6 +64,7 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Builder.Default
     private List<PickingJobLine> pickingJobLines = new ArrayList<>();
+
 }
 
 

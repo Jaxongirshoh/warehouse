@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -29,7 +28,7 @@ public class ProductPrice {
 
     @OneToMany(mappedBy = "productPrice", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Builder.Default
-    private List<SalesOrderLine> salesOrderLine = new ArrayList<>();
+    private List<SalesOrderLine> salesOrderLines = new ArrayList<>();
 
     @Column(name = "start_date")
     private LocalDate start;

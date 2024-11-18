@@ -27,16 +27,14 @@ public class SalesOrderLine {
     private SalesOrder salesOrder;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_cost_id", nullable = false)
+    private ProductCost productCost;
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_price_id", nullable = false)
     private ProductPrice productPrice;
 
-    /**
-     * Calculate subtotal based on quantity and item price.
-     *
-     * @return subtotal value
-     */
+
     public double getSubtotal() {
-        return qty * (productPrice != null ? productPrice.getPrice() : 0.0);
+        return qty * (productCost != null ? productCost.getCost() : 0.0);
     }
 }
-

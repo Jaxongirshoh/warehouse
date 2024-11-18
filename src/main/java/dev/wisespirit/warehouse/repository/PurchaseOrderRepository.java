@@ -42,7 +42,7 @@ public interface PurchaseOrderRepository extends CrudRepository<PurchaseOrder, L
         ORDER BY 
             purchase_order.date DESC
         """, nativeQuery = true)
-    public List<PurchaseOrderDto> findAllByContractor(@Param("contractorId") Long vendorId);
+    public List<PurchaseOrderDto> findAllByContractor(@Param("contractor") Long contractorId);
     /**
      * @Query(value = "SELECT * FROM PURCHASEORDER WHERE PURCHASEORDER.vendor = :vendor", nativeQuery = true)
     public Optional<PurchaseOrder> findAllByVendor(@Param("vendor") int vendorId);
