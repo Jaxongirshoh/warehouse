@@ -2,7 +2,6 @@ package dev.wisespirit.warehouse.controller;
 
 import dev.wisespirit.warehouse.dto.AuthUserCreateDto;
 import dev.wisespirit.warehouse.dto.AuthUserDto;
-import dev.wisespirit.warehouse.entity.auth.AuthUser;
 import dev.wisespirit.warehouse.service.AuthRoleService;
 import dev.wisespirit.warehouse.service.AuthUserService;
 import jakarta.validation.Valid;
