@@ -8,4 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface OrganizationRepository extends JpaRepository<Organization, UUID> {
+    boolean existsOrganizationByPhoneNumberAndAndEmailAndOrganizationName(String phoneNumber, String email, String organizationName);
 }

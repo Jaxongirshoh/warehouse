@@ -51,6 +51,8 @@ public class Organization extends BaseAuditable{
     @Column(nullable = false)
     @NotBlank
     private String password;
+    private String imageName;
+    private String imageType;
     @Lob
     private byte[] orgImage;
     @Column(name = "status")
