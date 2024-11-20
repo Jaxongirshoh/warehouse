@@ -12,8 +12,7 @@ import lombok.Setter;
 import java.util.Set;
 
 /**
- * This class represents a warehouse within the system.
-
+ * This class represents a warehouse within the system/organization.
  * This class extends `BaseAuditable` and provides fields for defining warehouse details:
  * - **name:** The name of the warehouse.
  * - **address:** The address of the warehouse.

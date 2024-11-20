@@ -14,6 +14,23 @@ import lombok.Setter;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * This class demonstrate an organization entity.
+ * This class extends `BaseAuditable` and provides additional fields for defining organization information,
+ * employees, and warehouses:
+ * - **organizationName:** The unique name of the organization.
+ * - **phoneNumber:** The unique phone number of the organization, validated to ensure it's in a specific format.
+ * - **email:** The unique email address of the organization, validated to ensure it's a valid email address.
+ * - **password:** The password for the organization's account.
+ * - **orgImage:** The logo image of the organization, stored as a byte array.
+ * - **status:** The current status of the organization (active or inactive).
+ * - **employees:** A set of {@link AuthUser} objects associated with the organization, representing its employees.
+ * - **warehouses:** A set of {@link Warehouse} objects associated with the organization, representing its warehouses.
+ *
+ * @author wisespirit
+ * @version 0.1
+ */
+
 @Setter
 @Getter
 @AllArgsConstructor

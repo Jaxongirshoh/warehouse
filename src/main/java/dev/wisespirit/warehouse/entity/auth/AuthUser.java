@@ -22,6 +22,8 @@ import java.util.List;
  * - **phoneNumber:** The user's phone number, validated against a specific format.
  * - **email:** The user's email address, validated against a standard email format.
  * - **password:** The user's password.
+ * - **status:** The user's status.
+ * -**organization** The Organization which a User work for
  * @author wisespirit
  * @version 0.1
  */
