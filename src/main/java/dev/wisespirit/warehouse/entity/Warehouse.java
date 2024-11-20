@@ -1,12 +1,8 @@
 package dev.wisespirit.warehouse.entity;
 
 import dev.wisespirit.warehouse.entity.auth.BaseAuditable;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import dev.wisespirit.warehouse.entity.auth.Organization;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -42,5 +38,8 @@ public class Warehouse extends BaseAuditable {
     private String phone;
     @OneToMany(mappedBy = "warehouse",cascade = CascadeType.ALL)
     private Set<CashBox> cashBoxes;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organization_id", nullable = false)
+    private Organization organization;
 }
 
