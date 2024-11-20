@@ -1,6 +1,7 @@
 package dev.wisespirit.warehouse.dto;
 
 import dev.wisespirit.warehouse.entity.Product;
+import dev.wisespirit.warehouse.entity.ProductPrice;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,10 +11,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductDto {
+public class ProductDto extends BaseDto {
+    private String name;
     private Long contractorId;
     private int sku;
     private String description;
+    private ProductPriceDto productPrice;
+    private ProductCostDto productCostDto;
     public Product toProduct() {
         return Product.builder()
                 .sku(sku)

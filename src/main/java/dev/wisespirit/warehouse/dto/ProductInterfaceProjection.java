@@ -1,6 +1,6 @@
 package dev.wisespirit.warehouse.dto;
 
-public interface ProductInterfaceProjection {
+public interface ProductInterfaceProjection  {
     Long getId();
     String getName();
 }

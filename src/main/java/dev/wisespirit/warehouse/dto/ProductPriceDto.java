@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductPriceDto {
+public class ProductPriceDto extends BaseDto{
     private String startDate;
     private String endDate;
     private double price;

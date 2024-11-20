@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class PurchaseOrderNumberDto {
+public class PurchaseOrderNumberDto extends BaseDto{
     Long purchaseOrderNumber;
 }

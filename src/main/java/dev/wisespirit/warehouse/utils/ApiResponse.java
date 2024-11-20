@@ -68,5 +68,6 @@ public class ApiResponse<T> {
         return new ApiResponse<>(false, message, data, HttpStatus.BAD_REQUEST.value());
     }
 
+
 }
 

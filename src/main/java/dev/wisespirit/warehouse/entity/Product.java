@@ -1,5 +1,6 @@
 package dev.wisespirit.warehouse.entity;
 
+import dev.wisespirit.warehouse.entity.auth.BaseAuditable;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,12 +26,14 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "product")
-public class Product {
+public class Product extends BaseAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "name")
+    private String name;
     @ManyToOne
     @JoinColumn(name = "contractor_id")
     private Contractor contractor;

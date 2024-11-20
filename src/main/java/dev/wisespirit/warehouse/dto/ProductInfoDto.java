@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductInfoDto {
+public class ProductInfoDto extends BaseDto {
+    private String name;
     private String description;
     private double salesPrice;
     private double cost;

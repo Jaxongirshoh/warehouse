@@ -1,4 +1,6 @@
 package dev.wisespirit.warehouse.dto;
 
-public record ProductClassProjection(Long id, String name) {
+public class ProductClassProjection extends BaseDto {
+    Long id;
+    String name;
 }
