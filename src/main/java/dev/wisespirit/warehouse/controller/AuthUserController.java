@@ -2,6 +2,7 @@ package dev.wisespirit.warehouse.controller;
 
 import dev.wisespirit.warehouse.dto.AuthUserCreateDto;
 import dev.wisespirit.warehouse.dto.AuthUserDto;
+import dev.wisespirit.warehouse.dto.OrganizationDto;
 import dev.wisespirit.warehouse.entity.auth.Organization;
 import dev.wisespirit.warehouse.service.AuthRoleService;
 import dev.wisespirit.warehouse.service.AuthUserService;
@@ -40,7 +41,7 @@ public class AuthUserController {
         if (authUserService.existsByPhoneNumberAndEmail(dto.phoneNumber())){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        Optional<Organization> organization = orgService.findOrganizationById(organization_id);
+        Optional<OrganizationDto> organization = orgService.findOrganizationById(organization_id);
         if (!organization.isPresent()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
