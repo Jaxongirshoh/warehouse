@@ -1,4 +1,4 @@
-package dev.wisespirit.warehouse.entity.Exceptions;
+package dev.wisespirit.warehouse.Exceptions;
 
 public class ProductNotFoundException extends Exception {
     public ProductNotFoundException(String message) {

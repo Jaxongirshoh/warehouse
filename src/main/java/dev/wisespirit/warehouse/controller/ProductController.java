@@ -2,13 +2,11 @@ package dev.wisespirit.warehouse.controller;
 
 import dev.wisespirit.warehouse.dto.ProductDto;
 import dev.wisespirit.warehouse.dto.ProductInfoDto;
-import dev.wisespirit.warehouse.entity.Exceptions.ProductNotFoundException;
+import dev.wisespirit.warehouse.Exceptions.ProductNotFoundException;
 import dev.wisespirit.warehouse.entity.Product;
 import dev.wisespirit.warehouse.service.ProductService;
 import dev.wisespirit.warehouse.utils.ApiResponse;
 import dev.wisespirit.warehouse.utils.EntityToDtoUtil;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.core.convert.ConversionService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

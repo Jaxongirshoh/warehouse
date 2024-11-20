@@ -1,7 +1,7 @@
 package dev.wisespirit.warehouse.service;
 
 import dev.wisespirit.warehouse.entity.Contractor;
-import dev.wisespirit.warehouse.entity.Exceptions.ProductNotFoundException;
+import dev.wisespirit.warehouse.Exceptions.ProductNotFoundException;
 import dev.wisespirit.warehouse.entity.Product;
 import org.springframework.stereotype.Service;
 

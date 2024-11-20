@@ -31,6 +31,7 @@ public class Category extends BaseAuditable {
     @Column(nullable = false)
     @NotBlank(message = "name cannot be blank")
     private String name;
-    //todo join with itself
-    private String parentId;
+    @OneToMany
+    @JoinColumn(name = "category_id")
+    private Category parent;
 }
