@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * This class represents a category of products.
@@ -32,8 +33,9 @@ public class Category extends BaseAuditable {
     @Column(nullable = false)
     @NotBlank(message = "name cannot be blank")
     private String name;
-    //todo join with itself
-    private String parentId;
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private Category parent;
     @ManyToMany(mappedBy = "categories",fetch = FetchType.LAZY)
     private Set<Product> products;
 }
