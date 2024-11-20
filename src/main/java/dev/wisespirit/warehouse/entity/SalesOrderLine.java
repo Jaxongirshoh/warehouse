@@ -1,5 +1,8 @@
 package dev.wisespirit.warehouse.entity;
 
+import dev.wisespirit.warehouse.entity.product.Product;
+import dev.wisespirit.warehouse.entity.product.ProductCost;
+import dev.wisespirit.warehouse.entity.product.ProductPrice;
 import jakarta.persistence.*;
 import lombok.*;
 

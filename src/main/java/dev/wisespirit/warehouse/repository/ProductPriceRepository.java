@@ -1,6 +1,6 @@
 package dev.wisespirit.warehouse.repository;
 
-import dev.wisespirit.warehouse.entity.ProductPrice;
+import dev.wisespirit.warehouse.entity.product.ProductPrice;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 

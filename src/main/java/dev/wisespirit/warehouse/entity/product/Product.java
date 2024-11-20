@@ -1,5 +1,6 @@
-package dev.wisespirit.warehouse.entity;
+package dev.wisespirit.warehouse.entity.product;
 
+import dev.wisespirit.warehouse.entity.*;
 import dev.wisespirit.warehouse.entity.auth.BaseAuditable;
 import jakarta.persistence.*;
 import lombok.*;

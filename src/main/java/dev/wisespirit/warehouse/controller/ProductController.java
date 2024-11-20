@@ -3,7 +3,7 @@ package dev.wisespirit.warehouse.controller;
 import dev.wisespirit.warehouse.dto.ProductDto;
 import dev.wisespirit.warehouse.dto.ProductInfoDto;
 import dev.wisespirit.warehouse.Exceptions.ProductNotFoundException;
-import dev.wisespirit.warehouse.entity.Product;
+import dev.wisespirit.warehouse.entity.product.Product;
 import dev.wisespirit.warehouse.service.ProductService;
 import dev.wisespirit.warehouse.utils.ApiResponse;
 import dev.wisespirit.warehouse.utils.EntityToDtoUtil;

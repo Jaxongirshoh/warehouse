@@ -1,7 +1,6 @@
 package dev.wisespirit.warehouse.dto;
 
-import dev.wisespirit.warehouse.entity.Product;
-import dev.wisespirit.warehouse.entity.ProductPrice;
+import dev.wisespirit.warehouse.entity.product.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,5 +1,6 @@
 package dev.wisespirit.warehouse.entity;
 
+import dev.wisespirit.warehouse.entity.product.Product;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
