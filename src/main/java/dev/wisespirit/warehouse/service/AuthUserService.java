@@ -24,33 +24,24 @@ public class AuthUserService {
     public Optional<AuthUserDto> save(AuthUserCreateDto dto){
         AuthUser authUser = new AuthUser();
         authUser.setPassword(dto.password());
-        authUser.setName(dto.organizationName());
         authUser.setSurname(dto.surname());
         authUser.setPhoneNumber(dto.phoneNumber());
         AuthUser savedUser = authUserRepository.save(authUser);
-        return Optional.of(new AuthUserDto(savedUser.getOrganizationName(),savedUser.getPhoneNumber(),savedUser.getEmail()));
+        return Optional.of(new AuthUserDto(dto.name(), dto.surname(),dto.phoneNumber()));
     }
 
-    public Optional<AuthUserDto> findByEmail(String email){
-        AuthUser authUser = authUserRepository.findByEmail(email).orElse(null);
-        if (authUser == null) {
-            return Optional.empty();
-        }
-        return Optional.of(new AuthUserDto(authUser.getOrganizationName(),authUser.getPhoneNumber(),authUser.getEmail()));
-
-    }
 
     public Optional<AuthUserDto> findById(UUID id){
         AuthUser authUser = authUserRepository.findById(id).orElse(null);
         if(authUser == null){
             return Optional.empty();
         }
-        return Optional.of(new AuthUserDto(authUser.getOrganizationName(),authUser.getPhoneNumber(),authUser.getEmail()));
+        return Optional.of(new AuthUserDto(authUser.getName(),authUser.getSurname(),authUser.getPhoneNumber()));
     }
 
 
-    public boolean existsByPhoneNumberAndEmail(String phoneNumber, String email) {
-        return authUserRepository.existsByPhoneNumberAndEmail(phoneNumber,email);
+    public boolean existsByPhoneNumberAndEmail(String phoneNumber) {
+        return authUserRepository.existsByPhoneNumber(phoneNumber);
     }
 
     public void saveRole(AuthRole authRole,UUID id) {

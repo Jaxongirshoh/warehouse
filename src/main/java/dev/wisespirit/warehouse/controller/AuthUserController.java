@@ -31,7 +31,7 @@ public class AuthUserController {
             return new ResponseEntity<>(errors.getAllErrors(),HttpStatus.BAD_REQUEST);
         }
 
-        if (authUserService.existsByPhoneNumberAndEmail(dto.phoneNumber(),dto.email())){
+        if (authUserService.existsByPhoneNumberAndEmail(dto.phoneNumber())){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 

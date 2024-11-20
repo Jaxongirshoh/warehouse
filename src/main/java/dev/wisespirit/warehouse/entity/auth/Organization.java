@@ -1,5 +1,6 @@
 package dev.wisespirit.warehouse.entity.auth;
 
+import dev.wisespirit.warehouse.entity.Contractor;
 import dev.wisespirit.warehouse.entity.Warehouse;
 import dev.wisespirit.warehouse.enums.OrganizationStatus;
 import jakarta.persistence.*;
@@ -59,4 +60,6 @@ public class Organization extends BaseAuditable{
     private Set<AuthUser> employees = new HashSet<>();
     @OneToMany(mappedBy = "organization", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Warehouse> warehouses = new HashSet<>();
+    @OneToMany(mappedBy = "organization",cascade = CascadeType.ALL)
+    private Set<Contractor> contractors = new HashSet<>();
 }
