@@ -5,10 +5,12 @@ import dev.wisespirit.warehouse.dto.AuthUserDto;
 import dev.wisespirit.warehouse.dto.OrganizationDto;
 import dev.wisespirit.warehouse.entity.auth.AuthRole;
 import dev.wisespirit.warehouse.entity.auth.AuthUser;
+import dev.wisespirit.warehouse.entity.auth.Organization;
 import dev.wisespirit.warehouse.repository.AuthRoleRepository;
 import dev.wisespirit.warehouse.repository.AuthUserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,7 +24,12 @@ public class AuthUserService {
         this.authRoleRepository = authRoleRepository;
     }
 
-    public Optional<AuthUserDto> save(AuthUserCreateDto dto, OrganizationDto organization){
+    public Optional<AuthUserDto> save(AuthUserCreateDto dto, OrganizationDto orgDto){
+        Organization organization = new Organization();
+        organization.setEmail(orgDto.email());
+        organization.setOrganizationName(orgDto.organizationName());
+        organization.setPhoneNumber(orgDto.phoneNumber());
+        organization.setOrgImage(orgDto.orgImage());
         AuthUser authUser = new AuthUser();
         authUser.setPassword(dto.password());
         authUser.setSurname(dto.surname());
