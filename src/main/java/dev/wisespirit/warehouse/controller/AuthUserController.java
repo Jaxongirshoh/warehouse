@@ -1,9 +1,8 @@
 package dev.wisespirit.warehouse.controller;
 
-import dev.wisespirit.warehouse.dto.AuthUserCreateDto;
-import dev.wisespirit.warehouse.dto.AuthUserDto;
-import dev.wisespirit.warehouse.dto.OrganizationDto;
-import dev.wisespirit.warehouse.entity.auth.Organization;
+import dev.wisespirit.warehouse.dto.auth.AuthUserCreateDto;
+import dev.wisespirit.warehouse.dto.auth.AuthUserDto;
+import dev.wisespirit.warehouse.dto.auth.OrganizationDto;
 import dev.wisespirit.warehouse.service.AuthRoleService;
 import dev.wisespirit.warehouse.service.AuthUserService;
 import dev.wisespirit.warehouse.service.OrganizationService;

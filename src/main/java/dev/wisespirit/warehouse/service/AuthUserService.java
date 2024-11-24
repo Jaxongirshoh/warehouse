@@ -1,8 +1,8 @@
 package dev.wisespirit.warehouse.service;
 
-import dev.wisespirit.warehouse.dto.AuthUserCreateDto;
-import dev.wisespirit.warehouse.dto.AuthUserDto;
-import dev.wisespirit.warehouse.dto.OrganizationDto;
+import dev.wisespirit.warehouse.dto.auth.AuthUserCreateDto;
+import dev.wisespirit.warehouse.dto.auth.AuthUserDto;
+import dev.wisespirit.warehouse.dto.auth.OrganizationDto;
 import dev.wisespirit.warehouse.entity.auth.AuthRole;
 import dev.wisespirit.warehouse.entity.auth.AuthUser;
 import dev.wisespirit.warehouse.entity.auth.Organization;
@@ -10,7 +10,6 @@ import dev.wisespirit.warehouse.repository.AuthRoleRepository;
 import dev.wisespirit.warehouse.repository.AuthUserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
