@@ -12,6 +12,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * This class represents an authenticated user within the system.
@@ -58,8 +59,6 @@ public class AuthUser extends BaseAuditable{
             inverseJoinColumns = @JoinColumn(name = "auth_role_id",referencedColumnName = "id")
     )
     private List<AuthRole> roles = new ArrayList<>();
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "organization_id",nullable = false)
-    private Organization organization;
+    private UUID organizationId;
 
 }
