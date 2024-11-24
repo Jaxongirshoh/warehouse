@@ -97,8 +97,12 @@ public class OrganizationService {
             }
         }
         Organization org = organizationRepository.save(organization);
-        OrganizationDto orgDto = new OrganizationDto();
-        orgDto.
+        OrganizationDto orgDto = new OrganizationDto(
+                org.getOrganizationName(),
+                org.getPhoneNumber(),
+                org.getEmail(),
+                org.getOrgImage());
+        return Optional.of(orgDto);
 
 
 
