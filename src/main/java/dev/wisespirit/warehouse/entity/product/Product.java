@@ -21,7 +21,8 @@ import java.util.List;
  * @author wisespirit
  * @version 0.1
  */
-@Data
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
