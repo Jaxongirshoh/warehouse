@@ -25,14 +25,14 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Builder(toBuilder = true)
 @Entity
 @Table(name = "product")
 public class Product extends BaseAuditable {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    @Column(name = "id")
-//    private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;
 
     @Column(name = "name")
     private String name;

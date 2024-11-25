@@ -36,6 +36,6 @@ public class Warehouse extends BaseAuditable {
     @Column(nullable = false)
     @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\\\.[a-zA-Z]{2,}\\n\",message = \"email is invalid")
     private String phone;
-    private UUID organizationId;
+    private Long organizationId;
 }
 
