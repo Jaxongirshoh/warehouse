@@ -2,6 +2,7 @@ package dev.wisespirit.warehouse;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 /**
  * This simple class demonstrate Spring boot main class
@@ -10,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 
 @SpringBootApplication
+@EnableJpaRepositories
 public class WarehouseApplication {
 
 	public static void main(String[] args) {

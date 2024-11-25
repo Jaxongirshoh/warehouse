@@ -1,4 +1,4 @@
-package dev.wisespirit.warehouse.entity;
+package dev.wisespirit.warehouse.entity.product;
 
 import dev.wisespirit.warehouse.entity.auth.BaseAuditable;
 import jakarta.persistence.*;
@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
 
 /**
  * This class represents a category of products.
@@ -32,8 +31,4 @@ public class Category extends BaseAuditable {
     @Column(nullable = false)
     @NotBlank(message = "name cannot be blank")
     private String name;
-    //todo join with itself
-    private String parentId;
-    @ManyToMany(mappedBy = "categories",fetch = FetchType.LAZY)
-    private Set<Product> products;
 }

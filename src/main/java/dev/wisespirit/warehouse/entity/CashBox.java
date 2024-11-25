@@ -5,13 +5,14 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.UUID;
 
 /**
  * This class represents a cash box within a warehouse.
@@ -49,7 +50,5 @@ public class CashBox extends BaseAuditable {
     @Column(nullable = false)
     @NotBlank(message = "balance cannot be blank")
     private double balance;
-    @ManyToOne()
-    @JoinColumn(name = "warehouse_id",nullable = false)
-    private Warehouse warehouse;
+    private Long warehouseId;
 }

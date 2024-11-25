@@ -1,12 +1,8 @@
 package dev.wisespirit.warehouse.entity;
 
 import dev.wisespirit.warehouse.entity.auth.BaseAuditable;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import dev.wisespirit.warehouse.entity.auth.Organization;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,10 +10,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Set;
+import java.util.UUID;
 
 /**
- * This class represents a warehouse within the system.
-
+ * This class represents a warehouse within the system/organization.
  * This class extends `BaseAuditable` and provides fields for defining warehouse details:
  * - **name:** The name of the warehouse.
  * - **address:** The address of the warehouse.
@@ -40,7 +36,6 @@ public class Warehouse extends BaseAuditable {
     @Column(nullable = false)
     @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\\\.[a-zA-Z]{2,}\\n\",message = \"email is invalid")
     private String phone;
-    @OneToMany(mappedBy = "warehouse",cascade = CascadeType.ALL)
-    private Set<CashBox> cashBoxes;
+    private UUID organizationId;
 }
 

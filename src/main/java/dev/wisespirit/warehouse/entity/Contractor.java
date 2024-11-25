@@ -1,18 +1,17 @@
 package dev.wisespirit.warehouse.entity;
 
 import dev.wisespirit.warehouse.entity.auth.BaseAuditable;
+import dev.wisespirit.warehouse.entity.auth.Organization;
 import dev.wisespirit.warehouse.enums.ContractorType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.UUID;
 
 /**
  * This class represents a contractor within the system.
@@ -47,4 +46,5 @@ public class Contractor extends BaseAuditable {
     private ContractorType type;
     @Column(nullable = false)
     private String serviceName;
+    private Long organizationId;
 }
