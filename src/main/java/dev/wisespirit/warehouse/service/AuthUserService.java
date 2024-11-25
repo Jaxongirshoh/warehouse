@@ -33,7 +33,6 @@ public class AuthUserService {
         authUser.setPassword(dto.password());
         authUser.setSurname(dto.surname());
         authUser.setPhoneNumber(dto.phoneNumber());
-        authUser.setOrganization(organization);
         AuthUser savedUser = authUserRepository.save(authUser);
         return Optional.of(new AuthUserDto(dto.name(), dto.surname(),dto.phoneNumber()));
     }
