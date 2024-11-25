@@ -50,5 +50,5 @@ public class CashBox extends BaseAuditable {
     @Column(nullable = false)
     @NotBlank(message = "balance cannot be blank")
     private double balance;
-    private UUID warehouseId;
+    private Long warehouseId;
 }
