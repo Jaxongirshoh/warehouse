@@ -46,5 +46,5 @@ public class Contractor extends BaseAuditable {
     private ContractorType type;
     @Column(nullable = false)
     private String serviceName;
-    private UUID organizationId;
+    private Long organizationId;
 }

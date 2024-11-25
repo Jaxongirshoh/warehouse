@@ -59,6 +59,6 @@ public class AuthUser extends BaseAuditable{
             inverseJoinColumns = @JoinColumn(name = "auth_role_id",referencedColumnName = "id")
     )
     private List<AuthRole> roles = new ArrayList<>();
-    private UUID organizationId;
+    private Long organizationId;
 
 }
