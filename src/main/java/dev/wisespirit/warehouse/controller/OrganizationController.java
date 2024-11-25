@@ -36,7 +36,7 @@ public class OrganizationController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getOrganization(@PathVariable UUID id){
+    public ResponseEntity<?> getOrganization(@PathVariable Long id){
         Optional<OrganizationDto> optional = organizationService.findOrganizationById(id);
         if (optional.isPresent()){
             return new ResponseEntity<>(ApiResponse.success(optional.get()), HttpStatus.OK);
@@ -46,7 +46,7 @@ public class OrganizationController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse> updateOrg(@RequestBody OrganizationCreateDto dto,
-                                                 @PathVariable UUID id,
+                                                 @PathVariable Long id,
                                                  @RequestPart(required = false) MultipartFile multipartFile){
         if (organizationService.existsById(id)){
             Optional<OrganizationDto> optional = organizationService.updateOrganization(dto,id,multipartFile);

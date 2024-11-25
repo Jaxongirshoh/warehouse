@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class OrganizationService {
@@ -19,11 +18,15 @@ public class OrganizationService {
         this.organizationRepository = organizationRepository;
     }
 
-    public Optional<OrganizationDto> findOrganizationById(UUID id) {
+    public Optional<OrganizationDto> findOrganizationById(Long id) {
         Optional<Organization> opt = organizationRepository.findById(id);
         if (opt.isPresent()) {
             Organization organization = opt.get();
-            new OrganizationDto(organization.getOrganizationName(), organization.getPhoneNumber(), organization.getEmail(), organization.getOrgImage());
+            new OrganizationDto(organization.getId(),
+                    organization.getOrganizationName(),
+                    organization.getPhoneNumber(),
+                    organization.getEmail(),
+                    organization.getOrgImage());
         }
         return Optional.empty();
     }
@@ -42,7 +45,8 @@ public class OrganizationService {
             organization.setImageName(multipartFile.getOriginalFilename());
             organization.setImageType(multipartFile.getContentType());
             Organization saved = organizationRepository.save(organization);
-            OrganizationDto orgDto = new OrganizationDto(saved.getOrganizationName(),
+            OrganizationDto orgDto = new OrganizationDto(saved.getId(),
+                    saved.getOrganizationName(),
                     saved.getPhoneNumber(),
                     saved.getImageName(),
                     saved.getOrgImage());
@@ -57,7 +61,8 @@ public class OrganizationService {
         organization.setImageName(multipartFile.getOriginalFilename());
         organization.setImageType(multipartFile.getContentType());
         Organization saved = organizationRepository.save(organization);
-        OrganizationDto orgDto = new OrganizationDto(saved.getOrganizationName(),
+        OrganizationDto orgDto = new OrganizationDto(saved.getId(),
+                saved.getOrganizationName(),
                 saved.getPhoneNumber(),
                 saved.getImageName(),
                 saved.getOrgImage());
@@ -65,11 +70,11 @@ public class OrganizationService {
 
     }
 
-    public boolean existsById(UUID id) {
+    public boolean existsById(Long id) {
         return organizationRepository.existsById(id);
     }
 
-    public Optional<OrganizationDto> updateOrganization(OrganizationCreateDto dto, UUID id, MultipartFile multipartFile) {
+    public Optional<OrganizationDto> updateOrganization(OrganizationCreateDto dto, Long id, MultipartFile multipartFile) {
         Organization organization = new Organization();
         if (dto.organizationName() != null) {
             organization.setOrganizationName(dto.organizationName());
@@ -98,6 +103,7 @@ public class OrganizationService {
         }
         Organization org = organizationRepository.save(organization);
         OrganizationDto orgDto = new OrganizationDto(
+                org.getId(),
                 org.getOrganizationName(),
                 org.getPhoneNumber(),
                 org.getEmail(),

@@ -29,10 +29,10 @@ import java.util.List;
 @Entity
 @Table(name = "product")
 public class Product extends BaseAuditable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Long id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @Column(name = "id")
+//    private Long id;
 
     @Column(name = "name")
     private String name;

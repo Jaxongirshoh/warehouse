@@ -16,7 +16,7 @@ public class AuthRoleService {
         this.authRoleRepository = authRoleRepository;
     }
 
-    public Optional<AuthRole> findById(UUID id) {
+    public Optional<AuthRole> findById(Long id) {
         return authRoleRepository.findById(id);
     }
 

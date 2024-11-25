@@ -34,16 +34,16 @@ public class AuthUserService {
         authUser.setSurname(dto.surname());
         authUser.setPhoneNumber(dto.phoneNumber());
         AuthUser savedUser = authUserRepository.save(authUser);
-        return Optional.of(new AuthUserDto(dto.name(), dto.surname(),dto.phoneNumber()));
+        return Optional.of(new AuthUserDto(savedUser.getId(),savedUser.getName(), savedUser.getSurname(),savedUser.getPhoneNumber()));
     }
 
 
-    public Optional<AuthUserDto> findById(UUID id){
+    public Optional<AuthUserDto> findById(Long id){
         AuthUser authUser = authUserRepository.findById(id).orElse(null);
         if(authUser == null){
             return Optional.empty();
         }
-        return Optional.of(new AuthUserDto(authUser.getName(),authUser.getSurname(),authUser.getPhoneNumber()));
+        return Optional.of(new AuthUserDto(authUser.getId(),authUser.getName(),authUser.getSurname(),authUser.getPhoneNumber()));
     }
 
 
@@ -51,7 +51,7 @@ public class AuthUserService {
         return authUserRepository.existsByPhoneNumber(phoneNumber);
     }
 
-    public void saveRole(AuthRole authRole,UUID id) {
+    public void saveRole(AuthRole authRole,Long id) {
         AuthUser authUser = authUserRepository.findById(id).get();
         authUser.getRoles().add(authRole);
         authRoleRepository.save(authRole);

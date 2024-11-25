@@ -32,7 +32,7 @@ public class AuthUserController {
     @PostMapping("/register/{organization_id}")
     public ResponseEntity<Object> save(@Valid @RequestBody AuthUserCreateDto dto,
                                        Errors errors,
-                                       @PathVariable UUID organization_id){
+                                       @PathVariable Long organization_id){
         if (errors.hasErrors()){
             return new ResponseEntity<>(errors.getAllErrors(),HttpStatus.BAD_REQUEST);
         }
@@ -52,8 +52,8 @@ public class AuthUserController {
     }
 
     @PostMapping("/{userId}/roles/{roleId}")
-    public ResponseEntity<String> assignRoleToUser(@PathVariable UUID userId,
-                                              @PathVariable UUID roleId ){
+    public ResponseEntity<String> assignRoleToUser(@PathVariable Long userId,
+                                              @PathVariable Long roleId ){
         Optional<AuthUserDto> userDto = authUserService.findById(userId);
         if (userDto.isPresent()){
             authRoleService.findById(roleId).ifPresent(authRole -> authUserService.saveRole(authRole,userId));
@@ -63,7 +63,7 @@ public class AuthUserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AuthUserDto> getUserById(@PathVariable UUID id) {
+    public ResponseEntity<AuthUserDto> getUserById(@PathVariable Long id) {
         Optional<AuthUserDto> optionalDto = authUserService.findById(id);
         if (optionalDto.isPresent()) {
             return ResponseEntity.ok(optionalDto.get());
