@@ -85,9 +85,6 @@ public class OrganizationService {
         if (dto.email() != null) {
             organization.setEmail(dto.email());
         }
-        if (dto.orgImage() != null) {
-            organization.setOrgImage(dto.orgImage());
-        }
         if (dto.password() != null) {
             organization.setPassword(dto.password());
         }
