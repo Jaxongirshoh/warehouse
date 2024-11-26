@@ -24,7 +24,7 @@ public class OrganizationController {
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponse> saveOrganization(@RequestBody OrganizationCreateDto dto,
-                                              @RequestPart MultipartFile multipartFile){
+                                              @RequestPart(required = false) MultipartFile multipartFile){
         if (organizationService.existsByPhoneNumberAndEmailAndOrganizationName(dto.phoneNumber(),dto.email(),dto.organizationName())) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
