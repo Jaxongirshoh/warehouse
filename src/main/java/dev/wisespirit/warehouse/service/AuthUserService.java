@@ -28,7 +28,7 @@ public class AuthUserService {
         organization.setEmail(orgDto.email());
         organization.setOrganizationName(orgDto.organizationName());
         organization.setPhoneNumber(orgDto.phoneNumber());
-        organization.setOrgImage(orgDto.orgImage());
+    //    organization.setOrgImage(orgDto.orgImage());
         AuthUser authUser = new AuthUser();
         authUser.setPassword(dto.password());
         authUser.setSurname(dto.surname());

@@ -39,22 +39,16 @@ import java.util.Set;
 @Entity
 @Table(name = "organizations")
 public class Organization extends BaseAuditable{
-    @Column(nullable = false,unique = true)
-    @NotBlank
     private String organizationName;
-    @Column(nullable = false,unique = true)
-    @Pattern(regexp = "^(?:\\+?998|0)?(33|55|77|88|90|91|93|94|95|97|98|99)\\d{7}$",message = "phone number is invalid")
+   // @Pattern(regexp = "^(?:\\+?998|0)?(33|55|77|88|90|91|93|94|95|97|98|99)\\d{7}$",message = "phone number is invalid")
     private String phoneNumber;
-    @Column(nullable = false,unique = true)
-    @Email(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$\n",message = "email is invalid")
+ //   @Email(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$\n",message = "email is invalid")
     private String email;
-    @Column(nullable = false)
-    @NotBlank
     private String password;
-    private String imageName;
-    private String imageType;
-    @Lob
-    private byte[] orgImage;
+//    private String imageName;
+//    private String imageType;
+//    @Lob
+//    private byte[] orgImage;
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private OrganizationStatus status = OrganizationStatus.ACTIVE;

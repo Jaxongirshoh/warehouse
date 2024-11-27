@@ -8,10 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.function.EntityResponse;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/organizations")
@@ -22,38 +20,38 @@ public class OrganizationController {
         this.organizationService = organizationService;
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<ApiResponse> saveOrganization(@RequestBody OrganizationCreateDto dto,
-                                              @RequestPart(required = false) MultipartFile multipartFile){
+    @PostMapping(value = "/register",consumes = "application/json")
+    public ResponseEntity<ApiResponse> saveOrganization(@RequestBody OrganizationCreateDto dto
+                                             /* ,@RequestPart(required = false) MultipartFile multipartFile*/){
         if (organizationService.existsByPhoneNumberAndEmailAndOrganizationName(dto.phoneNumber(),dto.email(),dto.organizationName())) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            return new ResponseEntity<>(ApiResponse.error("bad credentials",HttpStatus.BAD_REQUEST),HttpStatus.BAD_REQUEST);
         }
-        Optional<OrganizationDto> optional = organizationService.save(dto, multipartFile);
+        Optional<OrganizationDto> optional = organizationService.save(dto/*, multipartFile*/);
         if (optional.isPresent()){
             return new ResponseEntity<>(ApiResponse.success(true),HttpStatus.CREATED);
         }
-        return new ResponseEntity<>(new ApiResponse(true,404), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(ApiResponse.error("something wrong",null), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getOrganization(@PathVariable Long id){
+    public ResponseEntity<ApiResponse> getOrganization(@PathVariable Long id){
         Optional<OrganizationDto> optional = organizationService.findOrganizationById(id);
         if (optional.isPresent()){
             return new ResponseEntity<>(ApiResponse.success(optional.get()), HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(ApiResponse.error("not found",null),HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse> updateOrg(@RequestBody OrganizationCreateDto dto,
-                                                 @PathVariable Long id,
-                                                 @RequestPart(required = false) MultipartFile multipartFile){
+                                                 @PathVariable Long id/*,
+                                                 @RequestPart(required = false) MultipartFile multipartFile*/){
         if (organizationService.existsById(id)){
-            Optional<OrganizationDto> optional = organizationService.updateOrganization(dto,id,multipartFile);
+            Optional<OrganizationDto> optional = organizationService.updateOrganization(dto,id/*,multipartFile*/);
             if (optional.isPresent()){
                 return new ResponseEntity<>(ApiResponse.success(optional.get()), HttpStatus.OK);
             }
         }
-        return new ResponseEntity<>(ApiResponse.error("failed in update",HttpStatus.NOT_FOUND),HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(ApiResponse.error("not found",null),HttpStatus.NOT_FOUND);
     }
 }
