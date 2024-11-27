@@ -33,6 +33,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "contractors")
+@Deprecated(since="0.1")
 public class Contractor extends BaseAuditable {
     @Column(nullable = false)
     private String name;
