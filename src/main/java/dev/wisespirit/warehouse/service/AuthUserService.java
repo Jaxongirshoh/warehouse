@@ -27,16 +27,12 @@ public class AuthUserService {
         this.authRoleRepository = authRoleRepository;
     }
 
-    public Optional<AuthUserDto> save(AuthUserCreateDto dto, OrganizationDto orgDto){
-        Organization organization = new Organization();
-        organization.setEmail(orgDto.email());
-        organization.setOrganizationName(orgDto.organizationName());
-        organization.setPhoneNumber(orgDto.phoneNumber());
-    //    organization.setOrgImage(orgDto.orgImage());
+    public Optional<AuthUserDto> save(AuthUserCreateDto dto, Long organizationId) {
         AuthUser authUser = new AuthUser();
         authUser.setPassword(dto.password());
         authUser.setSurname(dto.surname());
         authUser.setPhoneNumber(dto.phoneNumber());
+        authUser.setOrganizationId(organizationId);
         AuthUser savedUser = authUserRepository.save(authUser);
         return Optional.of(new AuthUserDto(
                 savedUser.getId(),
@@ -47,12 +43,12 @@ public class AuthUserService {
     }
 
 
-    public Optional<AuthUserDto> findById(Long id){
+    public Optional<AuthUserDto> findById(Long id) {
         AuthUser authUser = authUserRepository.findById(id).orElse(null);
-        if(authUser == null){
+        if (authUser == null) {
             return Optional.empty();
         }
-        return Optional.of(new AuthUserDto(authUser.getId(),authUser.getName(),authUser.getSurname(),authUser.getPhoneNumber(),authUser.getOrganizationId()));
+        return Optional.of(new AuthUserDto(authUser.getId(), authUser.getName(), authUser.getSurname(), authUser.getPhoneNumber(), authUser.getOrganizationId()));
     }
 
 
@@ -60,7 +56,7 @@ public class AuthUserService {
         return authUserRepository.existsByPhoneNumber(phoneNumber);
     }
 
-    public void saveRole(AuthRole authRole,Long id) {
+    public void saveRole(AuthRole authRole, Long id) {
         AuthUser authUser = authUserRepository.findById(id).get();
         authUser.getRoles().add(authRole);
         authRoleRepository.save(authRole);
@@ -69,7 +65,7 @@ public class AuthUserService {
     public Optional<List<AuthUserDto>> findByOrganizationId(Long organizationId) {
         List<AuthUser> authUserList = authUserRepository.findAllByOrganizationId(organizationId);
         List<AuthUserDto> dtoList = new ArrayList<>();
-        if (authUserList.isEmpty()){
+        if (authUserList.isEmpty()) {
             return Optional.empty();
         }
         authUserList.forEach(authUser ->
@@ -84,7 +80,7 @@ public class AuthUserService {
 
     public Optional<List<AuthRole>> findRolesByUserId(Long userid) {
         AuthUser authUser = authUserRepository.findById(userid).orElse(null);
-        if(authUser == null){
+        if (authUser == null) {
             return Optional.empty();
         }
         return Optional.ofNullable(authUser.getRoles());

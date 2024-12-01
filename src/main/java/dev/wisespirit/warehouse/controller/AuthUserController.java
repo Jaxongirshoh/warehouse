@@ -50,7 +50,7 @@ public class AuthUserController {
         if (!organization.isPresent()) {
             return new ResponseEntity<>(ApiResponse.error("organization not found", null), HttpStatus.BAD_REQUEST);
         }
-        Optional<AuthUserDto> optional = authUserService.save(dto, organization.get());
+        Optional<AuthUserDto> optional = authUserService.save(dto, organization_id);
         if (optional.isPresent()) {
             return new ResponseEntity<>(ApiResponse.success(optional.get()), HttpStatus.CREATED);
         }

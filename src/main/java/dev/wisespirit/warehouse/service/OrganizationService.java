@@ -63,6 +63,9 @@ public class OrganizationService {
     public Optional<OrganizationDto> updateOrganization(OrganizationCreateDto dto, Long id/*, MultipartFile multipartFile*/) {
         Optional<Organization> optional = organizationRepository.findById(id);
         Organization organization = optional.orElseThrow(() -> new EntityNotFoundException("Organization not found"+id));
+
+        organization.setId(id);
+
         if (dto.organizationName() != null) {
             organization.setOrganizationName(dto.organizationName());
         }
