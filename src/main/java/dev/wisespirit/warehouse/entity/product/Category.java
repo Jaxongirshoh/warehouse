@@ -28,6 +28,9 @@ import lombok.Setter;
 @Entity
 @Table(name = "categories")
 public class Category extends BaseAuditable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(nullable = false)
     @NotBlank(message = "name cannot be blank")
     private String name;

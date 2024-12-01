@@ -36,6 +36,9 @@ import java.util.UUID;
 @Entity
 @Table(name = "auth_users")
 public class AuthUser extends BaseAuditable{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private String surname;
     private String phoneNumber;

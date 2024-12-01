@@ -68,8 +68,8 @@ public class AuthUserController {
         return new ResponseEntity(ApiResponse.error("user not found", null), HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("/roles/{id}")
-    public ResponseEntity<ApiResponse> getUserById(@PathVariable Long id) {
+    @GetMapping("/roles/{userId}")
+    public ResponseEntity<ApiResponse> getUserById(@PathVariable(name = "userId") Long id) {
         Optional<AuthUserDto> optionalDto = authUserService.findById(id);
         if (optionalDto.isPresent()) {
             return new ResponseEntity(ApiResponse.success(optionalDto.get()), HttpStatus.valueOf(200));
@@ -106,6 +106,10 @@ public class AuthUserController {
             return new ResponseEntity<>(ApiResponse.error("user not found",null),HttpStatus.NOT_FOUND);
         }
         Optional<List<AuthPermission>> permissions = authUserService.findUserPermissions(userid);
+        if (permissions.isPresent()) {
+            return new ResponseEntity<>(ApiResponse.success(permissions.get()),HttpStatus.OK);
+        }
+        return new ResponseEntity<>(ApiResponse.error("not found permissions for this employee", null), HttpStatus.NOT_FOUND);
     }
 
 

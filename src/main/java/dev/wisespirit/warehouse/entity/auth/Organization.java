@@ -39,6 +39,9 @@ import java.util.Set;
 @Entity
 @Table(name = "organizations")
 public class Organization extends BaseAuditable{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String organizationName;
    // @Pattern(regexp = "^(?:\\+?998|0)?(33|55|77|88|90|91|93|94|95|97|98|99)\\d{7}$",message = "phone number is invalid")
     private String phoneNumber;

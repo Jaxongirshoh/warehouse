@@ -1,11 +1,7 @@
 package dev.wisespirit.warehouse.entity;
 
 import dev.wisespirit.warehouse.entity.auth.BaseAuditable;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,6 +32,9 @@ import java.util.UUID;
 @Entity
 @Table(name = "cashboxes")
 public class CashBox extends BaseAuditable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(nullable = false,unique = true)
     private String name;
     @Column(nullable = false)
