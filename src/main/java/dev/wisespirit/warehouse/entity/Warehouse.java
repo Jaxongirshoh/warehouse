@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * This class represents a warehouse within the system/organization.
@@ -35,10 +36,6 @@ public class Warehouse extends BaseAuditable {
     @Column(nullable = false)
     @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\\\.[a-zA-Z]{2,}\\n\",message = \"email is invalid")
     private String phone;
-    @OneToMany(mappedBy = "warehouse",cascade = CascadeType.ALL)
-    private Set<CashBox> cashBoxes;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "organization_id", nullable = false)
-    private Organization organization;
+    private Long organizationId;
 }
 

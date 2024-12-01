@@ -1,10 +1,11 @@
 package dev.wisespirit.warehouse.service;
 
-import dev.wisespirit.warehouse.dto.AuthUserCreateDto;
-import dev.wisespirit.warehouse.dto.AuthUserDto;
-import dev.wisespirit.warehouse.dto.OrganizationDto;
+import dev.wisespirit.warehouse.dto.auth.AuthUserCreateDto;
+import dev.wisespirit.warehouse.dto.auth.AuthUserDto;
+import dev.wisespirit.warehouse.dto.auth.OrganizationDto;
 import dev.wisespirit.warehouse.entity.auth.AuthRole;
 import dev.wisespirit.warehouse.entity.auth.AuthUser;
+import dev.wisespirit.warehouse.entity.auth.Organization;
 import dev.wisespirit.warehouse.repository.AuthRoleRepository;
 import dev.wisespirit.warehouse.repository.AuthUserRepository;
 import org.springframework.stereotype.Service;
@@ -22,23 +23,27 @@ public class AuthUserService {
         this.authRoleRepository = authRoleRepository;
     }
 
-    public Optional<AuthUserDto> save(AuthUserCreateDto dto, OrganizationDto organization){
+    public Optional<AuthUserDto> save(AuthUserCreateDto dto, OrganizationDto orgDto){
+        Organization organization = new Organization();
+        organization.setEmail(orgDto.email());
+        organization.setOrganizationName(orgDto.organizationName());
+        organization.setPhoneNumber(orgDto.phoneNumber());
+        organization.setOrgImage(orgDto.orgImage());
         AuthUser authUser = new AuthUser();
         authUser.setPassword(dto.password());
         authUser.setSurname(dto.surname());
         authUser.setPhoneNumber(dto.phoneNumber());
-        authUser.setOrganization(organization);
         AuthUser savedUser = authUserRepository.save(authUser);
-        return Optional.of(new AuthUserDto(dto.name(), dto.surname(),dto.phoneNumber()));
+        return Optional.of(new AuthUserDto(savedUser.getId(),savedUser.getName(), savedUser.getSurname(),savedUser.getPhoneNumber()));
     }
 
 
-    public Optional<AuthUserDto> findById(UUID id){
+    public Optional<AuthUserDto> findById(Long id){
         AuthUser authUser = authUserRepository.findById(id).orElse(null);
         if(authUser == null){
             return Optional.empty();
         }
-        return Optional.of(new AuthUserDto(authUser.getName(),authUser.getSurname(),authUser.getPhoneNumber()));
+        return Optional.of(new AuthUserDto(authUser.getId(),authUser.getName(),authUser.getSurname(),authUser.getPhoneNumber()));
     }
 
 
@@ -46,7 +51,7 @@ public class AuthUserService {
         return authUserRepository.existsByPhoneNumber(phoneNumber);
     }
 
-    public void saveRole(AuthRole authRole,UUID id) {
+    public void saveRole(AuthRole authRole,Long id) {
         AuthUser authUser = authUserRepository.findById(id).get();
         authUser.getRoles().add(authRole);
         authRoleRepository.save(authRole);

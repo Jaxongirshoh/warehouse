@@ -1,6 +1,7 @@
 package dev.wisespirit.warehouse.entity;
 
 import dev.wisespirit.warehouse.entity.auth.BaseAuditable;
+import dev.wisespirit.warehouse.entity.product.Product;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;

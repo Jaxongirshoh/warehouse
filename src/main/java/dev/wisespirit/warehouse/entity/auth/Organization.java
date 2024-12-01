@@ -58,10 +58,4 @@ public class Organization extends BaseAuditable{
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private OrganizationStatus status = OrganizationStatus.ACTIVE;
-    @OneToMany(mappedBy = "organization", cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-    private Set<AuthUser> employees = new HashSet<>();
-    @OneToMany(mappedBy = "organization", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private Set<Warehouse> warehouses = new HashSet<>();
-    @OneToMany(mappedBy = "organization",cascade = CascadeType.ALL)
-    private Set<Contractor> contractors = new HashSet<>();
 }

@@ -1,5 +1,6 @@
-package dev.wisespirit.warehouse.entity;
+package dev.wisespirit.warehouse.entity.product;
 
+import dev.wisespirit.warehouse.entity.*;
 import dev.wisespirit.warehouse.entity.auth.BaseAuditable;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,10 +21,11 @@ import java.util.List;
  * @author wisespirit
  * @version 0.1
  */
-@Data
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Builder(toBuilder = true)
 @Entity
 @Table(name = "product")
 public class Product extends BaseAuditable {

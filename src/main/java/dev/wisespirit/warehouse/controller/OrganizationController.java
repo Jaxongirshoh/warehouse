@@ -23,6 +23,6 @@ public class OrganizationController {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         organizationService.save(dto,multipartFile);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+
     }
 }

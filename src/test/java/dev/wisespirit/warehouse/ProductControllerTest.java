@@ -2,7 +2,7 @@ package dev.wisespirit.warehouse;
 
 import dev.wisespirit.warehouse.controller.ProductController;
 import dev.wisespirit.warehouse.entity.Contractor;
-import dev.wisespirit.warehouse.entity.Product;
+import dev.wisespirit.warehouse.entity.product.Product;
 import dev.wisespirit.warehouse.service.ProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

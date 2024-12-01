@@ -1,14 +1,12 @@
 package dev.wisespirit.warehouse.entity;
 
+import dev.wisespirit.warehouse.entity.product.Product;
+import dev.wisespirit.warehouse.entity.product.ProductCost;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor

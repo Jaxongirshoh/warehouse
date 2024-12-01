@@ -1,4 +1,4 @@
-package dev.wisespirit.warehouse.entity;
+package dev.wisespirit.warehouse.entity.product;
 
 import dev.wisespirit.warehouse.entity.auth.BaseAuditable;
 import jakarta.persistence.*;
@@ -31,7 +31,4 @@ public class Category extends BaseAuditable {
     @Column(nullable = false)
     @NotBlank(message = "name cannot be blank")
     private String name;
-    @OneToMany
-    @JoinColumn(name = "category_id")
-    private Category parent;
 }

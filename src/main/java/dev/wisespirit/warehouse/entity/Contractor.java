@@ -11,6 +11,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 /**
  * This class represents a contractor within the system.
 
@@ -44,7 +46,5 @@ public class Contractor extends BaseAuditable {
     private ContractorType type;
     @Column(nullable = false)
     private String serviceName;
-    @ManyToOne
-    @JoinColumn(name = "organization_id",nullable = false)
-    private Organization organization;
+    private Long organizationId;
 }

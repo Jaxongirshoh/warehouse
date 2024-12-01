@@ -8,6 +8,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface AuthUserRepository extends JpaRepository<AuthUser, UUID> {
+public interface AuthUserRepository extends JpaRepository<AuthUser, Long> {
     boolean existsByPhoneNumber(String phoneNumber);
 }

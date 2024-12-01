@@ -35,8 +35,8 @@ import java.util.UUID;
 @MappedSuperclass
 public abstract class BaseAuditable {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @CreatedDate()
     private LocalDate createdAt;
     @CreatedBy()
