@@ -29,6 +29,9 @@ import java.util.UUID;
 @Entity
 @Table(name = "warehouses")
 public class Warehouse extends BaseAuditable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)

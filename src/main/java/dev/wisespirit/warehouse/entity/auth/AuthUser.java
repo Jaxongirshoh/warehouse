@@ -36,18 +36,12 @@ import java.util.UUID;
 @Entity
 @Table(name = "auth_users")
 public class AuthUser extends BaseAuditable{
-    @Column(nullable = false)
-    @NotBlank(message = "name is required")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
-    @Column(nullable = false)
-    @NotBlank(message = "surname is required")
     private String surname;
-    @Column(nullable = false,unique = true)
-    @NotBlank(message = "phone number is required")
-    @Pattern(regexp = "^(?:\\+?998|0)?(33|55|77|88|90|91|93|94|95|97|98|99)\\d{7}$",message = "phone number is invalid")
     private String phoneNumber;
-    @Column(nullable = false)
-    @NotBlank(message = "password is required")
     private String password;
     @Column(name = "status")
     @Enumerated(EnumType.STRING)

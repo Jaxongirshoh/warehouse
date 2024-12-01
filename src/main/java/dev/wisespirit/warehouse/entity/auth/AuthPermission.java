@@ -1,8 +1,6 @@
 package dev.wisespirit.warehouse.entity.auth;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +24,9 @@ import lombok.Setter;
 @Entity
 @Table(name = "auth_permissions")
 public class AuthPermission extends BaseAuditable{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)

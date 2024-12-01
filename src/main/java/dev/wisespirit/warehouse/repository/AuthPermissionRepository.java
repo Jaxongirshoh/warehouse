@@ -8,4 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface AuthPermissionRepository extends JpaRepository<AuthPermission, Long> {
+    boolean existsByName(String name);
 }
