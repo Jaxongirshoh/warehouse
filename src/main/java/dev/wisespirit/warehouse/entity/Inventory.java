@@ -2,9 +2,7 @@ package dev.wisespirit.warehouse.entity;
 
 import dev.wisespirit.warehouse.entity.auth.BaseAuditable;
 import dev.wisespirit.warehouse.entity.product.Product;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,7 +26,10 @@ import lombok.Setter;
 @Entity
 @Table(name = "inventories")
 @Deprecated(since = "0.1",forRemoval = true)
-public class    Inventory extends BaseAuditable {
+public class   Inventory extends BaseAuditable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Integer stockQuantity;
     @OneToOne
     private Product product;

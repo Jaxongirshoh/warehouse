@@ -35,7 +35,7 @@ public class AuthUserController {
         this.organizationService = organizationService;
     }
 
-    @PostMapping("/register/{organization_id}")
+    @PostMapping("/create/{organization_id}")
     public ResponseEntity<ApiResponse> save(@Valid @RequestBody AuthUserCreateDto dto,
                                             Errors errors,
                                             @PathVariable Long organization_id) {
