@@ -3,6 +3,7 @@ package dev.wisespirit.warehouse.service;
 import dev.wisespirit.warehouse.config.JwtService;
 import dev.wisespirit.warehouse.dto.auth.AuthUserCreateDto;
 import dev.wisespirit.warehouse.dto.auth.AuthUserDto;
+import dev.wisespirit.warehouse.dto.auth.AuthUserUpdateDto;
 import dev.wisespirit.warehouse.dto.auth.OrganizationDto;
 import dev.wisespirit.warehouse.entity.auth.AuthPermission;
 import dev.wisespirit.warehouse.entity.auth.AuthRole;
@@ -115,4 +116,23 @@ public class AuthUserService {
 
         return null;
     }
+
+    public AuthUserDto update(Long userId, AuthUserUpdateDto dto) {
+        AuthUser authUser = authUserRepository.findById(userId).get();
+        if (dto.name() != null) {
+            authUser.setName(dto.name());
+        }
+        if (dto.surname() != null) {
+            authUser.setSurname(dto.surname());
+        }
+        if (dto.phoneNumber() != null) {
+            authUser.setPhoneNumber(dto.phoneNumber());
+        }
+        if (dto.password() != null) {
+            authUser.setPassword(passwordEncoder.encode(dto.password()));
+        }
+        AuthUser saved = authUserRepository.save(authUser);
+        return new AuthUserDto(saved.getId(), saved.getName(), saved.getSurname(), saved.getPhoneNumber(), saved.getOrganizationId());
+    }
+
 }
