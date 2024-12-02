@@ -3,6 +3,7 @@ package dev.wisespirit.warehouse.service;
 import dev.wisespirit.warehouse.Exceptions.EntityNotFoundException;
 import dev.wisespirit.warehouse.dto.auth.OrganizationCreateDto;
 import dev.wisespirit.warehouse.dto.auth.OrganizationDto;
+import dev.wisespirit.warehouse.dto.auth.OrganizationUpdateDto;
 import dev.wisespirit.warehouse.entity.auth.Organization;
 import dev.wisespirit.warehouse.repository.OrganizationRepository;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -60,7 +61,7 @@ public class OrganizationService {
         return organizationRepository.existsById(id);
     }
 
-    public Optional<OrganizationDto> updateOrganization(OrganizationCreateDto dto, Long id/*, MultipartFile multipartFile*/) {
+    public Optional<OrganizationDto> updateOrganization(OrganizationUpdateDto dto, Long id/*, MultipartFile multipartFile*/) {
         Optional<Organization> optional = organizationRepository.findById(id);
         Organization organization = optional.orElseThrow(() -> new EntityNotFoundException("Organization not found"+id));
 

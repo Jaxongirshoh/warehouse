@@ -1,16 +1,12 @@
 package dev.wisespirit.warehouse.controller;
 
-import dev.wisespirit.warehouse.dto.auth.AuthUserCreateDto;
-import dev.wisespirit.warehouse.dto.auth.AuthUserDto;
-import dev.wisespirit.warehouse.dto.auth.OrganizationCreateDto;
-import dev.wisespirit.warehouse.dto.auth.OrganizationDto;
+import dev.wisespirit.warehouse.dto.auth.*;
 import dev.wisespirit.warehouse.service.AuthUserService;
 import dev.wisespirit.warehouse.service.OrganizationService;
 import dev.wisespirit.warehouse.utils.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -48,7 +44,7 @@ public class OrganizationController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse> updateOrg(@RequestBody OrganizationCreateDto dto,
+    public ResponseEntity<ApiResponse> updateOrg(@RequestBody OrganizationUpdateDto dto,
                                                  @PathVariable Long id/*,
                                                  @RequestPart(required = false) MultipartFile multipartFile*/){
         if (organizationService.existsById(id)){

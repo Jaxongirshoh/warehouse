@@ -2,6 +2,7 @@ package dev.wisespirit.warehouse.controller;
 
 import dev.wisespirit.warehouse.dto.auth.AuthUserCreateDto;
 import dev.wisespirit.warehouse.dto.auth.AuthUserDto;
+import dev.wisespirit.warehouse.dto.auth.AuthUserUpdateDto;
 import dev.wisespirit.warehouse.dto.auth.OrganizationDto;
 import dev.wisespirit.warehouse.entity.auth.AuthPermission;
 import dev.wisespirit.warehouse.entity.auth.AuthRole;
@@ -133,6 +134,19 @@ public class AuthUserController {
             return new ResponseEntity<>(ApiResponse.success(permissions.get()),HttpStatus.OK);
         }
         return new ResponseEntity<>(ApiResponse.error("not found permissions for this employee", null), HttpStatus.NOT_FOUND);
+    }
+
+    @PutMapping("/update/{userId}")
+    public ResponseEntity<ApiResponse> updateUser(@PathVariable Long userId,
+                                                  @RequestBody AuthUserUpdateDto dto) {
+        if (!authUserService.existById(userId)){
+            return new ResponseEntity<>(ApiResponse.error("user not found",null),HttpStatus.NOT_FOUND);
+        }
+        AuthUserDto authUserDto = authUserService.update(userId,dto);
+        if (authUserDto == null) {
+            return new ResponseEntity<>(ApiResponse.error("something went wrong",null),HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(ApiResponse.success(authUserDto), HttpStatus.OK);
     }
 
 
