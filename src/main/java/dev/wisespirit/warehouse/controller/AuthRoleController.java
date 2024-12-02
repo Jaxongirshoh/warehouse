@@ -8,7 +8,6 @@ import dev.wisespirit.warehouse.service.AuthRoleService;
 import dev.wisespirit.warehouse.service.AuthUserService;
 import dev.wisespirit.warehouse.utils.ApiResponse;
 import jakarta.validation.Valid;
-import org.modelmapper.internal.Errors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -17,9 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.management.relation.Role;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/roles")
@@ -35,30 +32,12 @@ public class AuthRoleController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<ApiResponse> createRole(@Valid @RequestBody AuthRole role, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            // Create a map of field errors
-            Map<String, String> fieldErrors = bindingResult.getFieldErrors().stream()
-                    .collect(Collectors.toMap(
-                            FieldError::getField,
-                            FieldError::getDefaultMessage,
-                            (existingValue, newValue) -> existingValue
-                    ));
-
-            return ResponseEntity
-                    .badRequest()
-                    .body(ApiResponse.error("Validation failed", fieldErrors));
-        }
-        try {
-            AuthRole authRole = new AuthRole();
-            authRole.setName(role.getName());
-            authRole.setDescription(role.getDescription());
-            Optional<AuthRole> saved = authRoleService.createRole(role);
-            return saved.<ResponseEntity<ApiResponse>>map(value -> new ResponseEntity<>(ApiResponse.success(value), HttpStatus.CREATED)).orElseGet(() -> new ResponseEntity<>(ApiResponse.error("error during save", null), HttpStatus.BAD_REQUEST));
-        }catch (Exception e) {
-            return new ResponseEntity<>(ApiResponse.error("something wrong",bindingResult), HttpStatus.BAD_REQUEST);
-        }
-
+    public ResponseEntity<ApiResponse> createRole(@RequestBody AuthRole role) {
+        AuthRole authRole = new AuthRole();
+        authRole.setName(role.getName());
+        authRole.setDescription(role.getDescription());
+        Optional<AuthRole> saved = authRoleService.createRole(role);
+        return saved.<ResponseEntity<ApiResponse>>map(value -> new ResponseEntity<>(ApiResponse.success(value), HttpStatus.CREATED)).orElseGet(() -> new ResponseEntity<>(ApiResponse.error("error during save", null), HttpStatus.BAD_REQUEST));
     }
 
     @GetMapping("/{roleId}")
