@@ -5,6 +5,7 @@ import dev.wisespirit.warehouse.dto.auth.AuthUserDto;
 import dev.wisespirit.warehouse.dto.auth.OrganizationDto;
 import dev.wisespirit.warehouse.entity.auth.AuthPermission;
 import dev.wisespirit.warehouse.entity.auth.AuthRole;
+import dev.wisespirit.warehouse.entity.auth.AuthUser;
 import dev.wisespirit.warehouse.service.AuthRoleService;
 import dev.wisespirit.warehouse.service.AuthUserService;
 import dev.wisespirit.warehouse.service.OrganizationService;
@@ -12,12 +13,12 @@ import dev.wisespirit.warehouse.utils.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -34,6 +35,28 @@ public class AuthUserController {
         this.orgService = orgService;
         this.organizationService = organizationService;
     }
+
+    @GetMapping("/login")
+    public ResponseEntity<ApiResponse> login(@RequestBody AuthUserCreateDto dto) {
+        if (dto==null){
+            return new ResponseEntity<>(ApiResponse.error("bad request",null),HttpStatus.BAD_REQUEST);
+        }
+        AuthUser authUser = new AuthUser();
+        authUser.setOrganizationId(dto.organizationId());
+        authUser.setSurname(dto.surname());
+        authUser.setPhoneNumber(dto.phoneNumber());
+        authUser.setPassword(dto.password());
+        authUser.setName(dto.name());
+        try {
+            String verify = authUserService.verify(authUser);
+            MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+            params.add("Authorization","Bearer "+verify);
+            return new ResponseEntity<>(ApiResponse.success(verify), params,200);
+        }catch (Exception e){
+            return new ResponseEntity<>(ApiResponse.error(e.getMessage(),null),HttpStatus.UNAUTHORIZED);
+        }
+    }
+
 
     @PostMapping("/create/{organization_id}")
     public ResponseEntity<ApiResponse> save(@Valid @RequestBody AuthUserCreateDto dto,

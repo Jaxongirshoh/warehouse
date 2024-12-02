@@ -1,5 +1,6 @@
 package dev.wisespirit.warehouse.service;
 
+import dev.wisespirit.warehouse.config.JwtService;
 import dev.wisespirit.warehouse.dto.auth.AuthUserCreateDto;
 import dev.wisespirit.warehouse.dto.auth.AuthUserDto;
 import dev.wisespirit.warehouse.dto.auth.OrganizationDto;
@@ -9,6 +10,11 @@ import dev.wisespirit.warehouse.entity.auth.AuthUser;
 import dev.wisespirit.warehouse.entity.auth.Organization;
 import dev.wisespirit.warehouse.repository.AuthRoleRepository;
 import dev.wisespirit.warehouse.repository.AuthUserRepository;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.management.relation.Role;
@@ -21,15 +27,30 @@ import java.util.UUID;
 public class AuthUserService {
     private final AuthUserRepository authUserRepository;
     private final AuthRoleRepository authRoleRepository;
-
-    public AuthUserService(AuthUserRepository authUserRepository, AuthRoleRepository authRoleRepository) {
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
+    public AuthUserService(AuthUserRepository authUserRepository, AuthRoleRepository authRoleRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtService jwtService) {
         this.authUserRepository = authUserRepository;
         this.authRoleRepository = authRoleRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
+    }
+
+    public String verify(AuthUser authUser){
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(authUser.getPhoneNumber(), authUser.getPassword()));
+        if (authentication.isAuthenticated()){
+            return jwtService.generateToken(authUser.getPhoneNumber());
+        }
+        throw new BadCredentialsException("Invalid phone number");
+
     }
 
     public Optional<AuthUserDto> save(AuthUserCreateDto dto, Long organizationId) {
         AuthUser authUser = new AuthUser();
-        authUser.setPassword(dto.password());
+        authUser.setPassword(passwordEncoder.encode(dto.password()));
         authUser.setSurname(dto.surname());
         authUser.setPhoneNumber(dto.phoneNumber());
         authUser.setOrganizationId(organizationId);
