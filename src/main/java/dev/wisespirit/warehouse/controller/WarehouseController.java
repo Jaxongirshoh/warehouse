@@ -2,14 +2,20 @@ package dev.wisespirit.warehouse.controller;
 
 import dev.wisespirit.warehouse.entity.Warehouse;
 import dev.wisespirit.warehouse.service.WarehouseService;
+import dev.wisespirit.warehouse.utils.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -21,9 +27,27 @@ public class WarehouseController {
 
 
     @PostMapping
-    public ResponseEntity<Warehouse> createWarehouse(@Valid @RequestBody Warehouse warehouse) {
-        Warehouse savedWarehouse = warehouseService.save(warehouse);
-        return new ResponseEntity<>(savedWarehouse, HttpStatus.CREATED);
+    public ResponseEntity<?> createWarehouse(@Valid @RequestBody Warehouse warehouse, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            // Create a map of field errors
+            Map<String, String> fieldErrors = bindingResult.getFieldErrors().stream()
+                    .collect(Collectors.toMap(
+                            FieldError::getField,
+                            FieldError::getDefaultMessage,
+                            (existingValue, newValue) -> existingValue
+                    ));
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(ApiResponse.error("Validation failed", fieldErrors));
+        }
+        try {
+            Warehouse savedWarehouse = warehouseService.save(warehouse);
+            return new ResponseEntity<>(savedWarehouse, HttpStatus.CREATED);
+        }catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
     }
 
 

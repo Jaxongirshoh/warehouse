@@ -3,12 +3,18 @@ package dev.wisespirit.warehouse.controller;
 import dev.wisespirit.warehouse.entity.auth.AuthPermission;
 import dev.wisespirit.warehouse.service.AuthPermissionService;
 import dev.wisespirit.warehouse.utils.ApiResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/permissions")
@@ -20,15 +26,33 @@ public class AuthPermissionController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<ApiResponse> createPermission(@RequestBody AuthPermission authPermission){
-        if (authPermissionService.existByName(authPermission.getName())) {
-            return new ResponseEntity<>(ApiResponse.error("permission already exist",null), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ApiResponse> createPermission(@Valid @RequestBody AuthPermission authPermission, BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            // Create a map of field errors
+            Map<String, String> fieldErrors = bindingResult.getFieldErrors().stream()
+                    .collect(Collectors.toMap(
+                            FieldError::getField,
+                            FieldError::getDefaultMessage,
+                            (existingValue, newValue) -> existingValue
+                    ));
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(ApiResponse.error("Validation failed", fieldErrors));
         }
-        Optional<AuthPermission> permission = authPermissionService.createPermission(authPermission);
-        if (permission.isPresent()) {
-            return new ResponseEntity<>(ApiResponse.success(permission.get()),HttpStatus.CREATED);
+
+        try {
+            if (authPermissionService.existByName(authPermission.getName())) {
+                return new ResponseEntity<>(ApiResponse.error("permission already exist",null), HttpStatus.BAD_REQUEST);
+            }
+            Optional<AuthPermission> permission = authPermissionService.createPermission(authPermission);
+            if (permission.isPresent()) {
+                return new ResponseEntity<>(ApiResponse.success(permission.get()),HttpStatus.CREATED);
+            }
+            return new ResponseEntity<>(ApiResponse.error("something went wrong",null), HttpStatus.BAD_REQUEST);
+        }catch (Exception e) {
+            return new ResponseEntity<>(ApiResponse.error("something went wrong",null), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(ApiResponse.error("something went wrong",null), HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/{permissionId}")
