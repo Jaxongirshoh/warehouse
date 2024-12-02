@@ -16,10 +16,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -38,23 +41,40 @@ public class AuthUserController {
     }
 
     @GetMapping("/login")
-    public ResponseEntity<ApiResponse> login(@Valid @RequestBody AuthUserCreateDto dto) {
-        if (dto==null){
-            return new ResponseEntity<>(ApiResponse.error("bad request",null),HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ApiResponse> login(@Valid @RequestBody AuthUserCreateDto dto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            // Create a map of field errors
+            Map<String, String> fieldErrors = bindingResult.getFieldErrors().stream()
+                    .collect(Collectors.toMap(
+                            FieldError::getField,
+                            FieldError::getDefaultMessage,
+                            (existingValue, newValue) -> existingValue
+                    ));
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(ApiResponse.error("Validation failed", fieldErrors));
         }
-        AuthUser authUser = new AuthUser();
-        authUser.setOrganizationId(dto.organizationId());
-        authUser.setSurname(dto.surname());
-        authUser.setPhoneNumber(dto.phoneNumber());
-        authUser.setPassword(dto.password());
-        authUser.setName(dto.name());
         try {
-            String verify = authUserService.verify(authUser);
-            MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-            params.add("Authorization","Bearer "+verify);
-            return new ResponseEntity<>(ApiResponse.success(verify), params,200);
+            if (dto==null){
+                return new ResponseEntity<>(ApiResponse.error("bad request",null),HttpStatus.BAD_REQUEST);
+            }
+            AuthUser authUser = new AuthUser();
+            authUser.setOrganizationId(dto.organizationId());
+            authUser.setSurname(dto.surname());
+            authUser.setPhoneNumber(dto.phoneNumber());
+            authUser.setPassword(dto.password());
+            authUser.setName(dto.name());
+            try {
+                String verify = authUserService.verify(authUser);
+                MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+                params.add("Authorization","Bearer "+verify);
+                return new ResponseEntity<>(ApiResponse.success(verify), params,200);
+            }catch (Exception e){
+                return new ResponseEntity<>(ApiResponse.error(e.getMessage(),null),HttpStatus.UNAUTHORIZED);
+            }
         }catch (Exception e){
-            return new ResponseEntity<>(ApiResponse.error(e.getMessage(),null),HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(ApiResponse.error("something wrong",null),HttpStatus.BAD_REQUEST);
         }
     }
 

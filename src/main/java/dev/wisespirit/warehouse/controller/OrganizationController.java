@@ -7,9 +7,14 @@ import dev.wisespirit.warehouse.utils.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/organizations")
@@ -23,16 +28,34 @@ public class OrganizationController {
     }
 
     @PostMapping(value = "/register",consumes = "application/json")
-    public ResponseEntity<ApiResponse> saveOrganization(@Valid @RequestBody OrganizationCreateDto dto
+    public ResponseEntity<ApiResponse> saveOrganization(@Valid @RequestBody OrganizationCreateDto dto, BindingResult bindingResult
                                              /* ,@RequestPart(required = false) MultipartFile multipartFile*/){
-        if (organizationService.existsByPhoneNumberAndEmailAndOrganizationName(dto.phoneNumber(),dto.email(),dto.organizationName())) {
-            return new ResponseEntity<>(ApiResponse.error("bad credentials",HttpStatus.BAD_REQUEST),HttpStatus.BAD_REQUEST);
+        if (bindingResult.hasErrors()) {
+            // Create a map of field errors
+            Map<String, String> fieldErrors = bindingResult.getFieldErrors().stream()
+                    .collect(Collectors.toMap(
+                            FieldError::getField,
+                            FieldError::getDefaultMessage,
+                            (existingValue, newValue) -> existingValue
+                    ));
+
+            return ResponseEntity
+                    .badRequest()
+                    .body(ApiResponse.error("Validation failed", fieldErrors));
         }
-        Optional<OrganizationDto> optional = organizationService.save(dto/*, multipartFile*/);
-        if (optional.isPresent()){
-            return new ResponseEntity<>(ApiResponse.success(true),HttpStatus.CREATED);
+        try {
+            if (organizationService.existsByPhoneNumberAndEmailAndOrganizationName(dto.phoneNumber(),dto.email(),dto.organizationName())) {
+                return new ResponseEntity<>(ApiResponse.error("bad credentials",HttpStatus.BAD_REQUEST),HttpStatus.BAD_REQUEST);
+            }
+            Optional<OrganizationDto> optional = organizationService.save(dto/*, multipartFile*/);
+            if (optional.isPresent()){
+                return new ResponseEntity<>(ApiResponse.success(true),HttpStatus.CREATED);
+            }
+            return new ResponseEntity<>(ApiResponse.error("something wrong",null), HttpStatus.INTERNAL_SERVER_ERROR);
+        }catch (Exception e){
+            return new ResponseEntity<>(ApiResponse.error("something wrong",null), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(ApiResponse.error("something wrong",null), HttpStatus.INTERNAL_SERVER_ERROR);
+
     }
 
     @GetMapping("/{id}")

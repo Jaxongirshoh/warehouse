@@ -10,6 +10,8 @@ import dev.wisespirit.warehouse.utils.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.management.relation.Role;
@@ -30,7 +32,7 @@ public class AuthRoleController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<ApiResponse> createRole(@Valid @RequestBody AuthRole role) {
+    public ResponseEntity<ApiResponse> createRole(@RequestBody AuthRole role) {
         AuthRole authRole = new AuthRole();
         authRole.setName(role.getName());
         authRole.setDescription(role.getDescription());
