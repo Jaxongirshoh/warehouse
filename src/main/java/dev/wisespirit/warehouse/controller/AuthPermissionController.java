@@ -3,6 +3,7 @@ package dev.wisespirit.warehouse.controller;
 import dev.wisespirit.warehouse.entity.auth.AuthPermission;
 import dev.wisespirit.warehouse.service.AuthPermissionService;
 import dev.wisespirit.warehouse.utils.ApiResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class AuthPermissionController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<ApiResponse> createPermission(@RequestBody AuthPermission authPermission){
+    public ResponseEntity<ApiResponse> createPermission(@Valid @RequestBody AuthPermission authPermission){
         if (authPermissionService.existByName(authPermission.getName())) {
             return new ResponseEntity<>(ApiResponse.error("permission already exist",null), HttpStatus.BAD_REQUEST);
         }

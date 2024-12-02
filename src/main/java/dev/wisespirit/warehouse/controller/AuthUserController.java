@@ -38,7 +38,7 @@ public class AuthUserController {
     }
 
     @GetMapping("/login")
-    public ResponseEntity<ApiResponse> login(@RequestBody AuthUserCreateDto dto) {
+    public ResponseEntity<ApiResponse> login(@Valid @RequestBody AuthUserCreateDto dto) {
         if (dto==null){
             return new ResponseEntity<>(ApiResponse.error("bad request",null),HttpStatus.BAD_REQUEST);
         }

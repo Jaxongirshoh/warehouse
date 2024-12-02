@@ -4,6 +4,7 @@ import dev.wisespirit.warehouse.dto.auth.*;
 import dev.wisespirit.warehouse.service.AuthUserService;
 import dev.wisespirit.warehouse.service.OrganizationService;
 import dev.wisespirit.warehouse.utils.ApiResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class OrganizationController {
     }
 
     @PostMapping(value = "/register",consumes = "application/json")
-    public ResponseEntity<ApiResponse> saveOrganization(@RequestBody OrganizationCreateDto dto
+    public ResponseEntity<ApiResponse> saveOrganization(@Valid @RequestBody OrganizationCreateDto dto
                                              /* ,@RequestPart(required = false) MultipartFile multipartFile*/){
         if (organizationService.existsByPhoneNumberAndEmailAndOrganizationName(dto.phoneNumber(),dto.email(),dto.organizationName())) {
             return new ResponseEntity<>(ApiResponse.error("bad credentials",HttpStatus.BAD_REQUEST),HttpStatus.BAD_REQUEST);
