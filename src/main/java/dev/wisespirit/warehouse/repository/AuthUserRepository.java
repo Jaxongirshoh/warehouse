@@ -13,4 +13,6 @@ public interface AuthUserRepository extends JpaRepository<AuthUser, Long> {
     boolean existsByPhoneNumber(String phoneNumber);
 
     List<AuthUser> findAllByOrganizationId(Long organizationId);
+
+    AuthUser findByPhoneNumber(String phoneNumber);
 }
