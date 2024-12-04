@@ -87,18 +87,23 @@ public class AuthUserController {
             return new ResponseEntity<>(ApiResponse.error("error ", errors.getAllErrors()), HttpStatus.BAD_REQUEST);
         }
 
-        if (authUserService.existsByPhoneNumber(dto.phoneNumber())) {
-            return new ResponseEntity<>(ApiResponse.error("phone number already exist", null), HttpStatus.BAD_REQUEST);
+        try {
+            if (authUserService.existsByPhoneNumber(dto.phoneNumber())) {
+                return new ResponseEntity<>(ApiResponse.error("phone number already exist", null), HttpStatus.BAD_REQUEST);
+            }
+            Optional<OrganizationDto> organization = orgService.findOrganizationById(organization_id);
+            if (!organization.isPresent()) {
+                return new ResponseEntity<>(ApiResponse.error("organization not found", null), HttpStatus.BAD_REQUEST);
+            }
+            Optional<AuthUserDto> optional = authUserService.save(dto, organization_id);
+            if (optional.isPresent()) {
+                return new ResponseEntity<>(ApiResponse.success(optional.get()), HttpStatus.CREATED);
+            }
+            return new ResponseEntity<>(ApiResponse.error("bad request", null), HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            return new ResponseEntity<>(ApiResponse.error(e.getMessage(), null), HttpStatus.BAD_REQUEST);
         }
-        Optional<OrganizationDto> organization = orgService.findOrganizationById(organization_id);
-        if (!organization.isPresent()) {
-            return new ResponseEntity<>(ApiResponse.error("organization not found", null), HttpStatus.BAD_REQUEST);
-        }
-        Optional<AuthUserDto> optional = authUserService.save(dto, organization_id);
-        if (optional.isPresent()) {
-            return new ResponseEntity<>(ApiResponse.success(optional.get()), HttpStatus.CREATED);
-        }
-        return new ResponseEntity<>(ApiResponse.error("bad request", null), HttpStatus.BAD_REQUEST);
+
     }
 
     @PostMapping("/{userId}/roles/{roleId}")
@@ -112,13 +117,18 @@ public class AuthUserController {
         return new ResponseEntity(ApiResponse.error("user not found", null), HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("/roles/{userId}")
-    public ResponseEntity<ApiResponse> getUserById(@PathVariable(name = "userId") Long id) {
-        Optional<AuthUserDto> optionalDto = authUserService.findById(id);
-        if (optionalDto.isPresent()) {
-            return new ResponseEntity(ApiResponse.success(optionalDto.get()), HttpStatus.valueOf(200));
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse> getUser(@PathVariable() Long id) {
+        try {
+            Optional<AuthUserDto> optionalDto = authUserService.findById(id);
+            if (optionalDto.isPresent()) {
+                return new ResponseEntity(ApiResponse.success(optionalDto.get()), HttpStatus.valueOf(200));
+            }
+            return new ResponseEntity<>(ApiResponse.error("not found", null), HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            return new ResponseEntity<>(ApiResponse.error("something wrong", null), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(ApiResponse.error("not found", null), HttpStatus.NOT_FOUND);
+
     }
 
     @GetMapping("/{organizationId}")
@@ -131,29 +141,39 @@ public class AuthUserController {
         }
         return new ResponseEntity<>(ApiResponse.error("not found", null), HttpStatus.NOT_FOUND);
     }
-
-    @GetMapping("/{userid}")
+/*
+    @GetMapping("/roles/{userid}")
     public ResponseEntity<ApiResponse> getRoleByUserId(@PathVariable Long userid) {
         if (!authUserService.existById(userid)) {
             return new ResponseEntity<>(ApiResponse.error("user not found", null), HttpStatus.NOT_FOUND);
         }
-        Optional<List<AuthRole>> permissions = authUserService.findRolesByUserId(userid);
-        if (permissions.isPresent()) {
-            return new ResponseEntity<>(ApiResponse.success(permissions.get()), HttpStatus.OK);
+        try {
+            Optional<AuthUserDto> optional = authUserService.findById(userid);
+            if (optional.isPresent()) {
+                return new ResponseEntity<>(ApiResponse.success(optional.get()), HttpStatus.OK);
+            }
+            return new ResponseEntity<>(ApiResponse.error("not found", null), HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            return new ResponseEntity<>(ApiResponse.error("something wrong",null), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(ApiResponse.error("not found", null), HttpStatus.NOT_FOUND);
-    }
+
+    }*/
 
     @GetMapping("/permissions/{userId}")
     public ResponseEntity<ApiResponse> getPermissionsByUserId(@PathVariable Long userid) {
         if (!authUserService.existById(userid)) {
             return new ResponseEntity<>(ApiResponse.error("user not found",null),HttpStatus.NOT_FOUND);
         }
-        Optional<List<AuthPermission>> permissions = authUserService.findUserPermissions(userid);
-        if (permissions.isPresent()) {
-            return new ResponseEntity<>(ApiResponse.success(permissions.get()),HttpStatus.OK);
+        try {
+            Optional<List<AuthPermission>> permissions = authUserService.findUserPermissions(userid);
+            if (permissions.isPresent()) {
+                return new ResponseEntity<>(ApiResponse.success(permissions.get()),HttpStatus.OK);
+            }
+            return new ResponseEntity<>(ApiResponse.error("not found permissions for this employee", null), HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            return new ResponseEntity<>(ApiResponse.error("something wrong",null),HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(ApiResponse.error("not found permissions for this employee", null), HttpStatus.NOT_FOUND);
+
     }
 
     @PutMapping("/update/{userId}")

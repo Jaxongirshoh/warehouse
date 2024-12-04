@@ -52,6 +52,7 @@ public class AuthUserService {
     public Optional<AuthUserDto> save(AuthUserCreateDto dto, Long organizationId) {
         AuthUser authUser = new AuthUser();
         authUser.setPassword(passwordEncoder.encode(dto.password()));
+        authUser.setName(dto.name());
         authUser.setSurname(dto.surname());
         authUser.setPhoneNumber(dto.phoneNumber());
         authUser.setOrganizationId(organizationId);

@@ -43,9 +43,14 @@ public class Organization extends BaseAuditable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String organizationName;
-   // @Pattern(regexp = "^(?:\\+?998|0)?(33|55|77|88|90|91|93|94|95|97|98|99)\\d{7}$",message = "phone number is invalid")
+    @Pattern(regexp = "^(?:\\+?998|0)?(33|55|77|88|90|91|93|94|95|97|98|99)\\d{7}$",message = "phone number is invalid")
+    @Pattern(regexp = "^\\+?[1-9]\\d{1,14}$")
     private String phoneNumber;
- //   @Email(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$\n",message = "email is invalid")
+  @Email
+ @Pattern(
+         regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+         message = "Invalid email format"
+ )
     private String email;
     private String password;
 //    private String imageName;

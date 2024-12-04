@@ -7,6 +7,8 @@ import dev.wisespirit.warehouse.entity.product.Product;
 import dev.wisespirit.warehouse.service.ProductService;
 import dev.wisespirit.warehouse.utils.ApiResponse;
 import dev.wisespirit.warehouse.utils.EntityToDtoUtil;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,9 +40,14 @@ public class ProductController {
      * @return ApiResponse indicating success or failure.
      */
     @PostMapping("/add")
-    public ApiResponse<ProductDto> addProduct(@ModelAttribute ProductDto productDto) {
-        productService.save(EntityToDtoUtil.convertToEntity(productDto, Product.class));
-        return ApiResponse.success(productDto);
+    public ResponseEntity<ApiResponse> addProduct(@ModelAttribute ProductDto productDto) {
+        try {
+            productService.save(EntityToDtoUtil.convertToEntity(productDto, Product.class));
+            return new ResponseEntity<>(ApiResponse.success(productDto),HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(ApiResponse.error("something went wrong",null), HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     /**
