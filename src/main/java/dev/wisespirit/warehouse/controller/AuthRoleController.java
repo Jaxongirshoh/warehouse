@@ -1,5 +1,6 @@
 package dev.wisespirit.warehouse.controller;
 
+import dev.wisespirit.warehouse.dto.auth.AuthRoleDto;
 import dev.wisespirit.warehouse.entity.auth.AuthPermission;
 import dev.wisespirit.warehouse.entity.auth.AuthRole;
 import dev.wisespirit.warehouse.entity.auth.AuthUser;
@@ -32,12 +33,17 @@ public class AuthRoleController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<ApiResponse> createRole(@RequestBody AuthRole role) {
-        AuthRole authRole = new AuthRole();
-        authRole.setName(role.getName());
-        authRole.setDescription(role.getDescription());
-        Optional<AuthRole> saved = authRoleService.createRole(role);
-        return saved.<ResponseEntity<ApiResponse>>map(value -> new ResponseEntity<>(ApiResponse.success(value), HttpStatus.CREATED)).orElseGet(() -> new ResponseEntity<>(ApiResponse.error("error during save", null), HttpStatus.BAD_REQUEST));
+    public ResponseEntity<ApiResponse> createRole(@RequestBody AuthRoleDto role) {
+        try {
+            AuthRole authRole = new AuthRole();
+            authRole.setName(role.name());
+            authRole.setDescription(role.description());
+            Optional<AuthRole> saved = authRoleService.createRole(authRole);
+            return saved.<ResponseEntity<ApiResponse>>map(value -> new ResponseEntity<>(ApiResponse.success(value), HttpStatus.CREATED)).orElseGet(() -> new ResponseEntity<>(ApiResponse.error("error during save", null), HttpStatus.BAD_REQUEST));
+        }catch (Exception e) {
+            return new ResponseEntity<>(ApiResponse.error("error during save", null), HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @GetMapping("/{roleId}")

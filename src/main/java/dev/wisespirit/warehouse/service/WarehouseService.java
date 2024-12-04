@@ -1,9 +1,8 @@
 package dev.wisespirit.warehouse.service;
 
-import aj.org.objectweb.asm.commons.Remapper;
+import dev.wisespirit.warehouse.dto.auth.WarehouseDto;
 import dev.wisespirit.warehouse.entity.Warehouse;
 import dev.wisespirit.warehouse.repository.WarehouseRepository;
-import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,7 +18,12 @@ public class WarehouseService {
     }
 
 
-    public Warehouse save( Warehouse warehouse) {
+    public Warehouse save( WarehouseDto dto) {
+        Warehouse warehouse = new Warehouse();
+        warehouse.setPhone(dto.phone());
+        warehouse.setName(dto.name());
+        warehouse.setAddress(dto.address());
+        warehouse.setOrganizationId(dto.organizationId());
         return warehouseRepository.save(warehouse);
     }
 
@@ -47,22 +51,27 @@ public class WarehouseService {
         return warehouseRepository.existsById(id);
     }
 
-    public Optional<Warehouse> update( Warehouse warehouseDetails,Long id) {
-        Warehouse warehouse = warehouseRepository.findById(warehouseDetails.getId()).orElse(null);
-        if (warehouse == null) {
+    public Optional<Warehouse> update(WarehouseDto warehouseDetails, Long id) {
+        Warehouse warehouse = new Warehouse();
+        warehouse.setName(warehouseDetails.name());
+        warehouse.setAddress(warehouseDetails.address());
+        warehouse.setOrganizationId(warehouseDetails.organizationId());
+        warehouse.setPhone(warehouseDetails.phone());
+        Warehouse savedWarehouse = warehouseRepository.findById(id).orElse(null);
+        if (savedWarehouse == null) {
             return Optional.empty();
         }
-        warehouse.setId(id);
-        if (warehouseDetails.getName() != null) {
-            warehouse.setName(warehouseDetails.getName());
+        savedWarehouse.setId(id);
+        if (warehouseDetails.name() != null) {
+            savedWarehouse.setName(warehouseDetails.name());
         }
-        if (warehouseDetails.getAddress() != null) {
-            warehouse.setAddress(warehouseDetails.getAddress());
+        if (warehouseDetails.address() != null) {
+            savedWarehouse.setAddress(warehouseDetails.address());
         }
-        if (warehouseDetails.getPhone() != null) {
-            warehouse.setPhone(warehouseDetails.getPhone());
+        if (warehouseDetails.phone() != null) {
+            savedWarehouse.setPhone(warehouseDetails.phone());
         }
-        Warehouse saved = warehouseRepository.save(warehouse);
+        Warehouse saved = warehouseRepository.save(savedWarehouse);
         return Optional.of(saved);
     }
 }

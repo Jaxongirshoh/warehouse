@@ -1,6 +1,8 @@
 package dev.wisespirit.warehouse.controller;
 
+import dev.wisespirit.warehouse.dto.auth.WarehouseDto;
 import dev.wisespirit.warehouse.entity.Warehouse;
+import dev.wisespirit.warehouse.service.OrganizationService;
 import dev.wisespirit.warehouse.service.WarehouseService;
 import dev.wisespirit.warehouse.utils.ApiResponse;
 import jakarta.validation.Valid;
@@ -24,10 +26,11 @@ import java.util.stream.Collectors;
 public class WarehouseController {
 
     private final WarehouseService warehouseService;
+    private final OrganizationService organizationService;
 
 
     @PostMapping
-    public ResponseEntity<?> createWarehouse(@Valid @RequestBody Warehouse warehouse, BindingResult bindingResult) {
+    public ResponseEntity<?> createWarehouse(@Valid @RequestBody WarehouseDto warehouse, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             // Create a map of field errors
             Map<String, String> fieldErrors = bindingResult.getFieldErrors().stream()
@@ -42,6 +45,9 @@ public class WarehouseController {
                     .body(ApiResponse.error("Validation failed", fieldErrors));
         }
         try {
+            if (!organizationService.existsById(warehouse.organizationId())){
+                return new ResponseEntity<>(ApiResponse.error("Organization not found", HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
+            }
             Warehouse savedWarehouse = warehouseService.save(warehouse);
             return new ResponseEntity<>(savedWarehouse, HttpStatus.CREATED);
         }catch (Exception e) {
@@ -69,15 +75,25 @@ public class WarehouseController {
     @PutMapping("/{id}")
     public ResponseEntity<Warehouse> updateWarehouse(
             @PathVariable Long id,
-            @Valid @RequestBody Warehouse warehouseDetails) {
+            @Valid @RequestBody WarehouseDto warehouseDetails) {
         if (!warehouseService.existById(id)){
             return ResponseEntity.notFound().build();
         }
-        Optional<Warehouse> updatedWarehouse = warehouseService.update(warehouseDetails,id);
-        if (updatedWarehouse.isPresent()){
-            return ResponseEntity.ok(updatedWarehouse.get());
+        try {
+            Warehouse warehouse = new Warehouse();
+            warehouse.setName(warehouseDetails.name());
+            warehouse.setAddress(warehouseDetails.address());
+            warehouse.setOrganizationId(warehouseDetails.organizationId());
+            warehouse.setPhone(warehouseDetails.phone());
+            Optional<Warehouse> updatedWarehouse = warehouseService.update(warehouseDetails,id);
+            if (updatedWarehouse.isPresent()){
+                return ResponseEntity.ok(updatedWarehouse.get());
+            }
+            return ResponseEntity.notFound().build();
+        }catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return ResponseEntity.notFound().build();
+
     }
 
     @DeleteMapping("/{id}")

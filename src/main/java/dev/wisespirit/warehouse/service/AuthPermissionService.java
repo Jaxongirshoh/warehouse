@@ -1,5 +1,6 @@
 package dev.wisespirit.warehouse.service;
 
+import dev.wisespirit.warehouse.dto.auth.AuthPermissionDto;
 import dev.wisespirit.warehouse.entity.auth.AuthPermission;
 import dev.wisespirit.warehouse.repository.AuthPermissionRepository;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,11 @@ public class AuthPermissionService {
         return authPermissionRepository.existsById(permissionId);
     }
 
-    public Optional<AuthPermission> createPermission(AuthPermission authPermission) {
-        return Optional.of(authPermissionRepository.save(authPermission));
+    public Optional<AuthPermission> createPermission(AuthPermissionDto authPermission) {
+        AuthPermission authPermissionEntity = new AuthPermission();
+        authPermissionEntity.setName(authPermission.name());
+        authPermissionEntity.setDescription(authPermission.description());
+        return Optional.of(authPermissionRepository.save(authPermissionEntity));
     }
 
     public boolean existByName(String permissionName) {

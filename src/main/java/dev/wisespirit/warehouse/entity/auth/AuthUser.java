@@ -41,6 +41,7 @@ public class AuthUser extends BaseAuditable{
     private Long id;
     private String name;
     private String surname;
+    @Pattern(regexp = "^\\+(998)(9[0-9]|5[0]|8[8]|7[7]|3[3]|2[0])[0-9]{7}$")
     private String phoneNumber;
     private String password;
     @Column(name = "status")
