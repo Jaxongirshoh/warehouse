@@ -16,7 +16,6 @@ import java.time.LocalDate;
 
 /**
  * This class is base class for all auditable entities.
- * - **id:** Unique identifier for the entity.
  * - **createdAt:** Date and time of entity creation.
  * - **createdBy:** ID of the user who created the entity.
  * - **updatedAt:** Date and time of the last modification.
