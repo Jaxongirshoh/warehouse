@@ -24,7 +24,7 @@ import java.util.UUID;
  * - **email:** The user's email address, validated against a standard email format.
  * - **password:** The user's password.
  * - **status:** The user's status.
- * -**organization** The Organization which a User work for
+ * -**organizationId** The Organization which a User work for
  * @author wisespirit
  * @version 0.1
  */
