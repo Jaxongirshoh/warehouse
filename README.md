@@ -87,5 +87,5 @@ mvn test
 This project is open-source. Please check the LICENSE file for details.
 
 ## Contact
-Project Maintainers: [[Jaxongir](https://github.com/Jaxongirshoh),[Ozodbek](https://github.com/devhawk7)]
+Project Maintainers: ,[Ozodbek](https://github.com/devhawk7) [Jaxongir](https://github.com/Jaxongirshoh)\
 Project Link: [https://github.com/Jaxongirshoh/warehouse](https://github.com/Jaxongirshoh/warehouse)
